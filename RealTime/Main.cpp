@@ -16,6 +16,7 @@ int main(void)
 	RealTimeEffects r = RealTimeEffects(effs);
 	if (r.start() == true)
 	{
+		//system(clc);
 		cout << "Starting RealTimeAudio" << endl;
 		cout << "Press any key to exit" << endl;
 		getchar();

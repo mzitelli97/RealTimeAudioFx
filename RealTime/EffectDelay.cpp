@@ -19,7 +19,7 @@ bool EffectDelay::next(const void * inputBuffer, void * outputBuffer, unsigned l
 	//esto implementa un filtro comb universal
 	float *in = (float*)inputBuffer;
 	float *out = (float*)outputBuffer;
-	float BL = 0.5; float FB = 0; float FF = 0.7;
+	float BL = -0.7; float FB = 0.7; float FF = 1;
 	for (unsigned long i = 0; i<framesPerBuffer; i++) //Every sample should be processed
 	{
 		float temp = buff[(dpr + i) % buff.size()]; //The older sample is retrieved

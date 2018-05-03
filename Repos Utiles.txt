@@ -1,0 +1,3 @@
+https://code.soundsoftware.ac.uk/projects/audio_effects_textbook_code/repository/show/effects
+
+https://github.com/juandagilc/Audio-Effects

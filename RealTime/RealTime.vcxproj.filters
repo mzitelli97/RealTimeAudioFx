@@ -33,9 +33,6 @@
     <ClInclude Include="EffectRobot.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="portaudio.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="EffectVibrato.h">
       <Filter>Header Files</Filter>
     </ClInclude>

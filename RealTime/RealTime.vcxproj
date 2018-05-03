@@ -80,10 +80,10 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\Users\Diego Juarez\Source\Repos\RealTimeAudioFx\RealTime;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>C:\Users\Diego Juarez\Source\Repos\RealTimeAudioFx\Linker;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\Linker;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>portaudio_x86.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ProjectReference>
@@ -134,7 +134,6 @@
     <ClInclude Include="EffectRobot.h" />
     <ClInclude Include="EffectVibrato.h" />
     <ClInclude Include="FFT.h" />
-    <ClInclude Include="portaudio.h" />
     <ClInclude Include="RealTimeEffects.h" />
     <ClInclude Include="Properties.h" />
   </ItemGroup>
