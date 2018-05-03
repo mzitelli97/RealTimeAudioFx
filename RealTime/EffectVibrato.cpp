@@ -9,8 +9,7 @@ EffectVibrato::EffectVibrato() :Effect(std::string("Delay"))
 	props = { Properties(std::string("Delay"),0,1024),Properties(std::string("Frequency"),0,5),Properties(std::string("Width"),0,100) };
 	props[0].setValue(0.5);
 	props[1].setValue(5);
-	props[2].setValue(100 / 44100);
-	std::cout << "Setting size to " << (unsigned)(props[2].getValue() * 44100 * 2);
+	props[2].setValue(100.0 / 44100);
 	buff = std::vector<float>(2+(unsigned)( 2 *44100*2), 0);
 	dpw = 0; // As the buffer will be circular (else, infinite memory would be needed) we need a write pointer
 	dpr = buff.size() / 2;

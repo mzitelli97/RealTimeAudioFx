@@ -8238,7 +8238,7 @@ void fft(complex<float>* out, complex<float>* in, size_t N)
 	}
 
 	//Calculo el logaritmo
-	unsigned  m = sizeof(uint32_t) * CHAR_BIT - __lzcnt(N) - 1;
+	unsigned  m =(unsigned)( sizeof(uint32_t) * CHAR_BIT - __lzcnt(N) - 1);
 	//Reordeno los valores
 	for (unsigned int a = 0; a < N; a++)
 	{
@@ -8253,7 +8253,8 @@ void fft(complex<float>* out, complex<float>* in, size_t N)
 
 void ifft(complex<float>* out, complex<float>* in, size_t n)
 {
-	memcpy(out, in, sizeof(*in)*n);
+	if (in != out)
+		memcpy(out, in, sizeof(*in)*n);
 	// conjugate the complex numbers
 	for (unsigned i = 0; i < n; i++)
 		out[i] = conj(out[i]);

@@ -10,8 +10,8 @@ using namespace std;
 int main(void)
 {
 	EffectDelay e3;
-	EffectRobot e2;
-	EffectVibrato e1;
+	EffectRobot e1;
+	EffectVibrato e2;
 	vector<Effect*> effs = { &e1,&e2,&e3 };
 	RealTimeEffects r = RealTimeEffects(effs);
 	if (r.start() == true)
