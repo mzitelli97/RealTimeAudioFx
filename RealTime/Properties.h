@@ -8,6 +8,7 @@ public:
 	bool setValue(double v);
 	double getValue();
 	std::string getName();
+	std::vector<double> getLimits();
 	~Properties();
 private:
 	double val;

@@ -4,7 +4,7 @@
 #include <queue>
 
 #define PI 3.14159265
-EffectVibrato::EffectVibrato() :Effect(std::string("Delay"))
+EffectVibrato::EffectVibrato() :Effect(std::string("Vibrato"))
 {
 	props = { Properties(std::string("Delay"),0,1024),Properties(std::string("Frequency"),0,5),Properties(std::string("Width"),0,100) };
 	props[0].setValue(0.5);
