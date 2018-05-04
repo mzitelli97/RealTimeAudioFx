@@ -1,20 +1,19 @@
-#include "EffectRobot.h"
+#include "EffectWhisper.h"
 
 const float PI = 3.141592653589793238460f;
 
-EffectRobot::EffectRobot():Effect("Robot")
+EffectWhisper::EffectWhisper():Effect("Whisper")
 {
 }
-
-bool EffectRobot::next(const void * inputBuffer, void * outputBuffer, unsigned long framesPerBuffer)
+bool EffectWhisper::next(const void * inputBuffer, void * outputBuffer, unsigned long framesPerBuffer)
 {
 	if (in.size() == 0)
 	{
 		in = vector<complex<float>>(framesPerBuffer * 2);
-		temp= vector<complex<float>>(framesPerBuffer );
+		temp = vector<complex<float>>(framesPerBuffer);
 	}
-		
-	float* din = (float*)inputBuffer,*dout= (float*)outputBuffer;
+
+	float* din = (float*)inputBuffer, *dout = (float*)outputBuffer;
 	//Copio los datos para avanzar con el overlap
 	memcpy(in.data(), in.data() + framesPerBuffer, sizeof(complex<float>)*framesPerBuffer);
 	//Ventaneo con ventana hanning y guardo los valores en el segundo segmento de la memoria
@@ -24,14 +23,15 @@ bool EffectRobot::next(const void * inputBuffer, void * outputBuffer, unsigned l
 	//Primera fft
 	fft(temp.data(), in.data(), framesPerBuffer);
 	for (auto& c : temp)
-		c=abs(c);
+		c = polar(abs(c), 2 * PI*(float)rand() / RAND_MAX);
 	ifft(temp.data(), temp.data(), framesPerBuffer);
-	for (unsigned i = 0; i < framesPerBuffer/2; i++)
-		dout[i] = temp[i+framesPerBuffer/2].real();
+	for (unsigned i = 0; i < framesPerBuffer / 2; i++)
+		dout[i] = temp[i + framesPerBuffer / 2].real();
 	//Segunda fft
-	fft(temp.data(), in.data()+framesPerBuffer/2, framesPerBuffer);
+	fft(temp.data(), in.data() + framesPerBuffer / 2, framesPerBuffer);
 	for (auto& c : temp)
-		c=abs(c);
+
+		c = polar(abs(c), 2 * PI*(float)rand() / RAND_MAX);
 	ifft(temp.data(), temp.data(), framesPerBuffer);
 	for (unsigned i = 0; i < framesPerBuffer / 2; i++)
 	{
@@ -41,15 +41,16 @@ bool EffectRobot::next(const void * inputBuffer, void * outputBuffer, unsigned l
 	//Tercera fft
 	fft(temp.data(), in.data() + framesPerBuffer, framesPerBuffer);
 	for (auto& c : temp)
-		c=abs(c);
+
+		c = polar(abs(c), 2 * PI*(float)rand() / RAND_MAX);
 	ifft(temp.data(), temp.data(), framesPerBuffer);
 	for (unsigned i = 0; i < framesPerBuffer / 2; i++)
-		dout[i+framesPerBuffer/2] = (dout[i + framesPerBuffer / 2] + temp[i].real()) / 2;
+		dout[i + framesPerBuffer / 2] = (dout[i + framesPerBuffer / 2] + temp[i].real()) / 2;
 
 	return true;
 }
 
 
-EffectRobot::~EffectRobot()
+EffectWhisper::~EffectWhisper()
 {
 }

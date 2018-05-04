@@ -29,6 +29,11 @@ std::string Properties::getName()
 	return name;
 }
 
+std::vector<double> Properties::getLimits()
+{
+	return limits;
+}
+
 Properties::~Properties()
 {
 }
