@@ -11,7 +11,7 @@ public:
 private:
 	std::vector<float> buff;
 	std::list<float> delayLine;
-	unsigned dpw;
+	unsigned dpw,counter;
 	float dpr;
 };
 
