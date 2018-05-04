@@ -36,6 +36,9 @@
     <ClInclude Include="EffectVibrato.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="EffectWhisper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Effect.cpp">
@@ -60,6 +63,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="EffectVibrato.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EffectWhisper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

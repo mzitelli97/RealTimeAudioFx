@@ -2,6 +2,7 @@
 #include "EffectDelay.h"
 #include "EffectRobot.h"
 #include "EffectVibrato.h"
+#include "EffectWhisper.h"
 #include <iostream>
 using namespace std;
 
