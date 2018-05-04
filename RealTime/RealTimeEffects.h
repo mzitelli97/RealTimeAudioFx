@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <iostream>
 #include "Effect.h"
 #include "portaudio.h"
 class RealTimeEffects
@@ -8,6 +9,7 @@ public:
 	RealTimeEffects(std::vector<Effect*>& eff);
 
 	bool start();
+	bool run();
 	bool stop();
 
 	void next(const void *inputBuffer, void *outputBuffer,unsigned long framesPerBuffer);
