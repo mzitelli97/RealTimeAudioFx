@@ -51,8 +51,8 @@ bool EffectDelay::next(const void * inputBuffer, void * outputBuffer, unsigned l
 	//Pointer incrementation, considering the buffer is circular
 	dpw += framesPerBuffer;
 	dpr += framesPerBuffer;
-	dpw %= buff.size();
-	dpr %= buff.size();
+	dpw %= buffL.size();
+	dpr %= buffL.size();
 	return true;
 }
 
