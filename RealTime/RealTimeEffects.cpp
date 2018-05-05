@@ -35,7 +35,7 @@ bool RealTimeEffects::start()
 		error= "Error: No input default device.";
 		if (err != paNoError) { Pa_Terminate();  return false; }
 	}
-	inputParameters.channelCount = 2;						/* stereo input */
+	inputParameters.channelCount = 1;						/* stereo input */
 	inputParameters.sampleFormat = paFloat32;				/* 32 bit floating point input */
 	inputParameters.suggestedLatency = Pa_GetDeviceInfo(inputParameters.device)->defaultLowInputLatency;
 	inputParameters.hostApiSpecificStreamInfo = NULL;

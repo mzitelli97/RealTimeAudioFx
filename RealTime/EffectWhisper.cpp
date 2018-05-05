@@ -46,7 +46,11 @@ bool EffectWhisper::next(const void * inputBuffer, void * outputBuffer, unsigned
 	ifft(temp.data(), temp.data(), framesPerBuffer);
 	for (unsigned i = 0; i < framesPerBuffer / 2; i++)
 		dout[i + framesPerBuffer / 2] = (dout[i + framesPerBuffer / 2] + temp[i].real()) / 2;
-
+	for (unsigned i = 0; i < framesPerBuffer; i += 1)
+	{
+		dout[2 * framesPerBuffer - 1 - 2 * i] = dout[framesPerBuffer - 1 - i];
+		dout[2 * framesPerBuffer - 2 - 2 * i] = dout[framesPerBuffer - 1 - i];
+	}
 	return true;
 }
 
