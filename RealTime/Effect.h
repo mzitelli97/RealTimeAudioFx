@@ -9,7 +9,7 @@ public:
 	virtual bool next(const void *inputBuffer, void *outputBuffer, unsigned long framesPerBuffer);
 	std::string getName();
     std::vector<Properties> getProps();
-	bool setProp(unsigned i, double v);
+	virtual bool setProp(unsigned i, double v);
 	~Effect();
 protected:
 	std::vector<Properties> props;

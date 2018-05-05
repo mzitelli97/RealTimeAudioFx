@@ -3,6 +3,8 @@
 #include "EffectRobot.h"
 #include "EffectVibrato.h"
 #include "EffectWhisper.h"
+#include "EffectDistortionHC.h"
+#include "EffectReverbLP.h"
 #include <iostream>
 using namespace std;
 
@@ -14,7 +16,9 @@ int main(void)
 	EffectRobot e1;
 	EffectVibrato e2;
 	EffectWhisper e4;
-	vector<Effect*> effs = { &e1,&e2,&e3,&e4 };
+	EffectDistortionHC e5;
+	EffectReverbLP e6;
+	vector<Effect*> effs = { &e1,&e2,&e3,&e4,&e5,&e6 };
 	RealTimeEffects r = RealTimeEffects(effs);
 	if (r.start() == true)
 	{
