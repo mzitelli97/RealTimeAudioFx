@@ -7,6 +7,7 @@ class EffectReverbLP :
 public:
 	EffectReverbLP();
 	bool next(const void * inputBuffer, void * outputBuffer, unsigned long framesPerBuffer)override;
+	bool EffectReverbLP::setProp(unsigned i, double v)override;
 	virtual ~EffectReverbLP();
 private:
 	std::vector<float> buff;

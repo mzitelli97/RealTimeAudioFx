@@ -15,21 +15,21 @@ bool EffectDistortionHC::next(const void * inputBuffer, void * outputBuffer, uns
 	{
 		//HardClipping
 		/*if (*in > props[0].getValue())
-			*(out++) = props[0].getValue();
+			out[i] = props[0].getValue();
 		else if (*in < -props[0].getValue())
-			*(out++) = -props[0].getValue();
+			out[i] = -props[0].getValue();
 		else
-			*(out++) = *in;
+			out[i] = *in;
 		in++;*/
 		//FullWaveRectifier
-		//*(out++) = abs(*(in++));
+		out[i] = abs(*(in++));
 		
 		//HalfWaveRectifier
-		/**(out++) = 0.5*(abs(*in) + *in);
+		/*out[i] = 0.5*(abs(*in) + *in);
 		in++;*/
 
 		//SoftClipping
-		if (*in > props[0].getValue())
+		/*if (*in > props[0].getValue())
 		{
 			if (*in > props[1].getValue()) // positive clipping
 			{
@@ -60,7 +60,14 @@ bool EffectDistortionHC::next(const void * inputBuffer, void * outputBuffer, uns
 		}
 		in++;
 		*(out++) /= 2.0; // divide all by 2 to compensate for extra 6 dB gain boost
+		*/
 	}
+	for (unsigned i = 0; i < framesPerBuffer; i++)
+	{
+		out[2 * framesPerBuffer - 1 - 2 * i] = out[framesPerBuffer - 1 - i];
+		out[2 * framesPerBuffer - 2 - 2 * i] = out[framesPerBuffer - 1 - i];
+	}
+
 	return true;
 }
 
