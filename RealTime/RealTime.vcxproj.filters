@@ -39,6 +39,9 @@
     <ClInclude Include="EffectWhisper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Effect3D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Effect.cpp">
@@ -66,6 +69,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="EffectWhisper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Effect3D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
