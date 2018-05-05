@@ -133,6 +133,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Effect.h" />
+    <ClInclude Include="Effect3D.h" />
     <ClInclude Include="EffectDelay.h" />
     <ClInclude Include="EffectDistortionHC.h" />
     <ClInclude Include="EffectReverbLP.h" />
@@ -145,6 +146,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Effect.cpp" />
+    <ClCompile Include="Effect3D.cpp" />
     <ClCompile Include="EffectDelay.cpp" />
     <ClCompile Include="EffectDistortionHC.cpp" />
     <ClCompile Include="EffectReverbLP.cpp" />
