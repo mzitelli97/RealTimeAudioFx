@@ -6,7 +6,22 @@
 
 bool Effect3D::next(const void * inputBuffer, void * outputBuffer, unsigned long framesPerBuffer)
 {
-	hsFilter(inputBuffer, outputBuffer, framesPerBuffer, 90);
+	
+	std::vector<float> leftOutput = std::vector<float>((unsigned)framesPerBuffer, 0);
+	std::vector<float> rightOutput = std::vector<float>((unsigned)framesPerBuffer, 0);
+	
+	hsFilter(inputBuffer,&leftOutput , framesPerBuffer, 180);
+	hsFilter(inputBuffer, &rightOutput, framesPerBuffer, 0);
+	float *out = (float*)outputBuffer;
+	//el output buffer para estereo va intercalando left y right
+	for (unsigned long i = 0; i < framesPerBuffer; i++)
+	{
+		*out++ = leftOutput[i];
+		*out++ = rightOutput[i];
+	}
+
+
+
 
 	return false;
 }
@@ -16,9 +31,8 @@ Effect3D::Effect3D():Effect("3D")
 
 }
 
-bool Effect3D::hsFilter(const void * inputBuffer, void * outputBuffer, unsigned long framesPerBuffer, float theta)
+bool Effect3D::hsFilter(const void * inputBuffer, std::vector<float> * outputBuffer, unsigned long framesPerBuffer, float theta)
 {
-	//theta += 90; //In degrees
 	float Fs = SAMPLE_FREQ;
 	float thetaO = 150;
 	float c = 334;
@@ -26,29 +40,30 @@ bool Effect3D::hsFilter(const void * inputBuffer, void * outputBuffer, unsigned 
 	float wo = c / a;
 	float alphamin = 0.05;
 	float alpha = 1 + alphamin + (1 - alphamin)*(cos( (theta/thetaO) *PI));
-	float *in = (float *)inputBuffer;
-	float *out= (float *)outputBuffer;
-	
 	float gDelay = 0;
+
+	float *in = (float*)inputBuffer;
+	std::vector<float>::iterator out= outputBuffer->begin();
+	
 	std::vector<float> buff= std::vector<float>((unsigned)framesPerBuffer, 0);
-	std::vector<float>::iterator it=buff.begin();
+	std::vector<float>::iterator tempIt=buff.begin();
 	
 	/*--------Head shadow---------*/
-	*it++ = *in++*(wo + alpha * Fs);
-	for (unsigned long i = 0; i < framesPerBuffer; i++,it++,in++) 
-		*it =( -(wo - Fs)*(*(it - 1)) + (*in)*(wo + alpha * Fs) + (wo - alpha * Fs)*(*(in - 1)) )/(wo-Fs);
+	*tempIt++ = *in++*(wo + alpha * Fs);
+	for (unsigned long i = 0; i < framesPerBuffer-1; i++, tempIt++,in++)
+		*tempIt =( -(wo - Fs)*(*(tempIt - 1)) + (*in)*(wo + alpha * Fs) + (wo - alpha * Fs)*(*(in - 1)) )/(wo-Fs);
 
 	if (abs(theta) < 90)
 		gDelay = -Fs / (wo*(cos(theta*PI / 180) - 1));
 	else
-		gDelay = Fs / wo * ((abs(theta) - 90)*PI / 180 + 1);
+		gDelay = Fs /( wo * ((abs(theta) - 90)*PI / 180 + 1));
 	
 	float gCoef = (1-gDelay)/(1+gDelay);
 	/*------- IDT ---------------*/
-	it = buff.begin();
-	*out++ = gCoef *(*it++);
-	for (unsigned long i = 0; i < framesPerBuffer; i++, out++, it++)
-		*out = -gCoef * (*(out - 1)) + gCoef * (*it) + *(it - 1);
+	tempIt = buff.begin();
+	*out++ = gCoef *(*tempIt++);
+	for (unsigned long i = 0; i < framesPerBuffer-1; i++, out++, tempIt++)
+		*out = -gCoef * (*(out - 1)) + gCoef * (*tempIt) + *(tempIt - 1);
 
 	return false;
 }

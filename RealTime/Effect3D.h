@@ -10,7 +10,7 @@ class Effect3D :
 	~Effect3D();
 
 	private:
-	bool hsFilter(const void * inputBuffer, void * outputBuffer, unsigned long framesPerBuffer, float theta);
+	bool hsFilter(const void * inputBuffer, std::vector<float> * outputBuffer, unsigned long framesPerBuffer, float theta);
 	
 
 
