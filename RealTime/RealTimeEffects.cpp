@@ -35,7 +35,7 @@ bool RealTimeEffects::start()
 		error= "Error: No input default device.";
 		if (err != paNoError) { Pa_Terminate();  return false; }
 	}
-	inputParameters.channelCount = 1;						/* mono input */
+	inputParameters.channelCount = 2;						/* stereo input */
 	inputParameters.sampleFormat = paFloat32;				/* 32 bit floating point input */
 	inputParameters.suggestedLatency = Pa_GetDeviceInfo(inputParameters.device)->defaultLowInputLatency;
 	inputParameters.hostApiSpecificStreamInfo = NULL;
@@ -45,7 +45,7 @@ bool RealTimeEffects::start()
 		error= "Error: No default output device.";
 		if (err != paNoError) { Pa_Terminate(); return false; }
 	}
-	outputParameters.channelCount = 1;				/* mono output */
+	outputParameters.channelCount = 2;				/* stereo output */
 	outputParameters.sampleFormat = paFloat32;		/* 32 bit floating point output */
 	outputParameters.suggestedLatency = Pa_GetDeviceInfo(outputParameters.device)->defaultLowOutputLatency;
 	outputParameters.hostApiSpecificStreamInfo = NULL;
@@ -127,7 +127,7 @@ bool RealTimeEffects::run()
 					{
 						std::vector<double> lim = p[currEffect].getLimits();
 						char dummy;
-						std::cout << "Values must be in range: [" << lim[0] << " , " << lim[1] << std::endl;
+						std::cout << "Values must be in range: [" << lim[0] << " , " << lim[1] << "]" << std::endl;
 						std::cout << "Press enter to continue" << std::endl;
 						std::cin >> dummy;
 					}

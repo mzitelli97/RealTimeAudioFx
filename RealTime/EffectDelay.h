@@ -8,7 +8,8 @@ public:
 	bool next(const void * inputBuffer, void * outputBuffer, unsigned long framesPerBuffer)override;
 	~EffectDelay();
 private:
-	std::vector<float> buff;
+	std::vector<float> buffL;
+	std::vector<float> buffR;
 	unsigned dpw,dpr;
 };
 

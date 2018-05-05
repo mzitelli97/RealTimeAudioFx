@@ -8,9 +8,10 @@ EffectDelay::EffectDelay() :Effect(std::string("Delay"))
 	props[0].setValue(0.6);
 	props[1].setValue(0.7);
 	props[2].setValue(0.5);
-	buff = std::vector<float>((unsigned)(props[2].getValue() * 44100.0 * 2.0),0);
+	buffL = std::vector<float>((unsigned)(props[2].getValue() * 44100.0 * 2.0),0);
+	buffR = std::vector<float>((unsigned)(props[2].getValue() * 44100.0 * 2.0), 0);
 	dpw = 0; // As the buffer will be circular (else, infinite memory would be needed) we need a write pointer
-	dpr = buff.size()/2;
+	dpr = buffL.size()/2;
 }
 
 bool EffectDelay::next(const void * inputBuffer, void * outputBuffer, unsigned long framesPerBuffer)
@@ -19,13 +20,13 @@ bool EffectDelay::next(const void * inputBuffer, void * outputBuffer, unsigned l
 	float *in = (float*)inputBuffer;
 	float *out = (float*)outputBuffer;
 	float BL = -0.7; float FB = 0.7; float FF = 1;
-	for (unsigned long i = 0; i<framesPerBuffer; i++) //Every sample should be processed
+	for (unsigned long i = 0; i < 2* framesPerBuffer; i++) //Every sample should be processed
 	{
-		float temp = buff[(dpr + i) % buff.size()]; //The older sample is retrieved
+		float temp = buffL[(dpr + i) % buffL.size()]; //The older sample is retrieved
 													//std::cout << *out << '\n'; 
 		float xh = (float)(props[1].getValue() * *(in++) + FB * temp);
 		*out = FF * temp + BL * xh; //And is added to the current sample (with a coefficient) LINE A
-		buff[(dpw + i) % buff.size()] = xh; // The output is saved (also with a coefficient) LINE B
+		buffL[(dpw + i) % buffL.size()] = xh; // The output is saved (also with a coefficient) LINE B
 		out++;
 	}
 	/*float *in = (float*)inputBuffer;
