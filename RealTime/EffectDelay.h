@@ -6,10 +6,10 @@ class EffectDelay :
 public:
 	EffectDelay();
 	bool next(const void * inputBuffer, void * outputBuffer, unsigned long framesPerBuffer)override;
+	bool setProp(unsigned i, double v)override;
 	~EffectDelay();
 private:
-	std::vector<float> buffL;
-	std::vector<float> buffR;
+	std::vector<float> buff;
 	unsigned dpw,dpr;
 };
 

@@ -49,8 +49,13 @@ bool EffectVibrato::next(const void * inputBuffer, void * outputBuffer, unsigned
 
 		buff[dpw] = xh;
 		if (++dpw >= buff.size()) dpw = 0;
-		*out = BL * xh + FF * xh_M;
-		out++;
+		out[i] = BL * xh + FF * xh_M;
+		//out++;
+	}
+	for (unsigned i = 0; i < framesPerBuffer; i++)
+	{
+		out[2 * framesPerBuffer - 1 - 2 * i] = out[framesPerBuffer - 1 - i];
+		out[2 * framesPerBuffer - 2 - 2 * i] = out[framesPerBuffer - 1 - i];
 	}
 
 	return true;

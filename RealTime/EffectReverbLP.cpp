@@ -24,8 +24,13 @@ bool EffectReverbLP::next(const void * inputBuffer, void * outputBuffer, unsigne
 		yh = b_1 * x_hold - a * y_hold;
 		y_hold = yh;
 		x_hold = buff[(dpr + i) % buff.size()];
-		*out = (float)(props[1].getValue() * *(in++)+props[0].getValue() * yh); //And is added to the current sample (with a coefficient) LINE A
-		buff[(dpw + i) % buff.size()] = *(out++); // The output is saved (also with a coefficient) LINE B
+		out[i] = (float)(props[1].getValue() * *(in++)+props[0].getValue() * yh); //And is added to the current sample (with a coefficient) LINE A
+		buff[(dpw + i) % buff.size()] = out[i]; // The output is saved (also with a coefficient) LINE B
+	}
+	for (unsigned i = 0; i < framesPerBuffer; i++)
+	{
+		out[2 * framesPerBuffer - 1 - 2 * i] = out[framesPerBuffer - 1 - i];
+		out[2 * framesPerBuffer - 2 - 2 * i] = out[framesPerBuffer - 1 - i];
 	}
 	dpw += framesPerBuffer;
 	dpr += framesPerBuffer;
@@ -34,6 +39,16 @@ bool EffectReverbLP::next(const void * inputBuffer, void * outputBuffer, unsigne
 	return true;
 }
 
+bool EffectReverbLP::setProp(unsigned i, double v)
+{
+	bool ret = false;
+	if (i < props.size())
+	{
+		ret = props[i].setValue(v);
+		if (i == 2) buff.resize(props[2].getValue() * 44100.0 * 2.0, 0);
+	}
+	return ret;
+}
 
 EffectReverbLP::~EffectReverbLP()
 {
