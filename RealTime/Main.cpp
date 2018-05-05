@@ -5,6 +5,7 @@
 #include "EffectWhisper.h"
 #include "EffectDistortionHC.h"
 #include "EffectReverbLP.h"
+#include "Effect3D.h"
 #include <iostream>
 using namespace std;
 
@@ -18,7 +19,8 @@ int main(void)
 	EffectWhisper e4;
 	EffectDistortionHC e5;
 	EffectReverbLP e6;
-	vector<Effect*> effs = { &e1,&e2,&e3,&e4,&e5,&e6 };
+	Effect3D e7;
+	vector<Effect*> effs = { &e1,&e2,&e3,&e4,&e5,&e6,&e7 };
 	RealTimeEffects r = RealTimeEffects(effs);
 	if (r.start() == true)
 	{
