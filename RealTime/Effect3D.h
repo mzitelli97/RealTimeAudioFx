@@ -3,8 +3,9 @@
 class Effect3D :
 	public Effect
 {
-	bool next(const void * inputBuffer, void * outputBuffer, unsigned long framesPerBuffer)override;
 public:
+	bool next(const void * inputBuffer, void * outputBuffer, unsigned long framesPerBuffer)override;
+
 	Effect3D();
 	bool hsFilter(const void * inputBuffer, unsigned long framesPerBuffer, void * outputBuffer, double theta, double Fs);
 	std::vector<float> buff;
