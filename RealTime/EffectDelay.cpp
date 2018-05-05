@@ -33,16 +33,6 @@ bool EffectDelay::next(const void * inputBuffer, void * outputBuffer, unsigned l
 		out[2 * framesPerBuffer - 1 - 2 * i] = out[framesPerBuffer - 1 - i];
 		out[2 * framesPerBuffer - 2 - 2 * i] = out[framesPerBuffer - 1 - i];
 	}
-	/*float *in = (float*)inputBuffer;
-	float *out = (float*)outputBuffer;
-	for (unsigned long i = 0; i<framesPerBuffer; i++) //Every sample should be processed
-	{
-		float temp = buff[(dpr+i)%buff.size()]; //The older sample is retrieved
-									   //std::cout << *out << '\n'; 
-		*out = (float) (props[1].getValue()* *(in++) + temp); //And is added to the current sample (with a coefficient) LINE A
-		buff[(dpw + i) % buff.size()] =(float) props[0].getValue() * *(out++); // The output is saved (also with a coefficient) LINE B
-	}*/
-
 	//To explain what this does in terms of digital systems and signals analysis, this "effect" has the following shape
 	// y(n) = feedback_*y(n-delay_)+dry_wet_*x(n)
 	//The second term is easy to appreciate in LINE A, where the raw input is taken directly to the ouptut (attenuated by dry_wet_)
@@ -55,8 +45,8 @@ bool EffectDelay::next(const void * inputBuffer, void * outputBuffer, unsigned l
 	//Pointer incrementation, considering the buffer is circular
 	dpw += framesPerBuffer;
 	dpr += framesPerBuffer;
-	dpw %= buff.size();
-	dpr %= buff.size();
+	dpw %= buffL.size();
+	dpr %= buffL.size();
 	return true;
 }
 
