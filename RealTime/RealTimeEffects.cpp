@@ -66,6 +66,83 @@ bool RealTimeEffects::start()
 	return true;
 }
 
+bool RealTimeEffects::run()
+{
+	system("cls");
+	std::cout << "Starting RealTimeAudio" << std::endl;
+	int currEffect = 0;
+	while (currEffect != effects.size())
+	{
+		system("cls");
+		std::cout << "The available effects are: " << std::endl;
+		for (unsigned i = 0; i < effects.size(); i++)
+			std::cout << i << " - " << effects[i]->getName() << std::endl;
+		std::cout << effects.size() << " - Exit" << std::endl;
+		std::cin >> currEffect;
+		if (!std::cin.good())
+		{
+			std::cin.clear();
+			std::cin.ignore(INT_MAX, '\n');
+			currEffect = 0;
+			continue;
+		}
+		if (currEffect >= 0 && currEffect < effects.size())
+		{
+			setEffect(currEffect);
+			std::vector<Properties> p = effects[currEffect]->getProps();
+			int prop = 0;
+			double val;
+			while (prop < p.size())
+			{
+				system("cls");
+				std::cout << "Now on effect: " << effects[currEffect]->getName() << std::endl;
+				for (unsigned j = 0; j < p.size(); j++)
+				{
+					std::vector<double> lim = p[j].getLimits();
+					std::cout << j << " - " << p[j].getName() << "\t\t\t[" << lim[0] << " , " << lim[1] << "]\t\t\t\t" << p[j].getValue() << std::endl;
+				}
+				std::cout << p.size() << " - Back" << std::endl;
+				std::cout << "Enter the prop and value you want to modify. Ex: 1  0.4" << std::endl;
+				std::cin >> prop;
+				if (!std::cin.good())
+				{
+					std::cin.clear();
+					std::cin.ignore(INT_MAX, '\n');
+					prop = 0;
+					continue;
+				}
+					
+				if (prop >= 0 && prop < p.size())
+				{
+					std::cin >> val;
+					if (!std::cin.good())
+					{
+						std::cin.clear();
+						std::cin.ignore(INT_MAX, '\n');
+						val = 0;
+						continue;
+					}
+
+					if (!effects[currEffect]->setProp(prop, val))
+					{
+						std::vector<double> lim = p[currEffect].getLimits();
+						char dummy;
+						std::cout << "Values must be in range: [" << lim[0] << " , " << lim[1] << std::endl;
+						std::cout << "Press enter to continue" << std::endl;
+						std::cin >> dummy;
+					}
+					else
+						p = effects[currEffect]->getProps();
+				}
+			}
+
+
+
+		}
+	}
+	return false;
+}
+
 bool RealTimeEffects::stop()
 {
 	PaError	err;
