@@ -109,10 +109,13 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\Linker;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>portaudio_x86.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -132,6 +135,8 @@
     <ClInclude Include="Effect.h" />
     <ClInclude Include="Effect3D.h" />
     <ClInclude Include="EffectDelay.h" />
+    <ClInclude Include="EffectDistortionHC.h" />
+    <ClInclude Include="EffectReverbLP.h" />
     <ClInclude Include="EffectRobot.h" />
     <ClInclude Include="EffectVibrato.h" />
     <ClInclude Include="EffectWhisper.h" />
@@ -143,6 +148,8 @@
     <ClCompile Include="Effect.cpp" />
     <ClCompile Include="Effect3D.cpp" />
     <ClCompile Include="EffectDelay.cpp" />
+    <ClCompile Include="EffectDistortionHC.cpp" />
+    <ClCompile Include="EffectReverbLP.cpp" />
     <ClCompile Include="EffectRobot.cpp" />
     <ClCompile Include="EffectVibrato.cpp" />
     <ClCompile Include="EffectWhisper.cpp" />

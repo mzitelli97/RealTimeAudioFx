@@ -1,18 +1,16 @@
 #pragma once
 #include "Effect.h"
 #include <list>
-class EffectVibrato :
+class EffectReverbLP :
 	public Effect
 {
 public:
-	EffectVibrato();
+	EffectReverbLP();
 	bool next(const void * inputBuffer, void * outputBuffer, unsigned long framesPerBuffer)override;
-	bool setProp(unsigned i, double v)override;
-	virtual ~EffectVibrato();
+	virtual ~EffectReverbLP();
 private:
 	std::vector<float> buff;
 	std::list<float> delayLine;
-	unsigned dpw,counter;
-	float dpr;
+	unsigned dpw, counter, dpr;
 };
 

@@ -39,6 +39,12 @@
     <ClInclude Include="EffectWhisper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="EffectDistortionHC.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EffectReverbLP.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="Effect3D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -72,6 +78,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Effect3D.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EffectDistortionHC.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EffectReverbLP.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
