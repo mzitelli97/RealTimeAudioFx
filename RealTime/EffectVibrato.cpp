@@ -7,7 +7,7 @@
 EffectVibrato::EffectVibrato() :Effect(std::string("Vibrato"))
 {
 	props = { Properties(std::string("Frequency"),0,100),Properties(std::string("Width"),0,100) };
-	props[0].setValue(1);
+	props[0].setValue(6);
 	props[1].setValue(0.1);	//Width of modulation in ms
 	buff = std::vector<float>((props[1].getValue()/1000)*44100, 0);
 	dpw = 0; // As the buffer will be circular (else, infinite memory would be needed) we need a write pointer
@@ -27,7 +27,7 @@ bool EffectVibrato::next(const void * inputBuffer, void * outputBuffer, unsigned
 	float *out = (float*)outputBuffer;
 
 	float modFreq = props[0].getValue() / (44100);
-	float BL = 0; float FF = 1; float FB = 0;
+	float BL = 0.7; float FF = 0.7; float FB = 0.7;
 	for (unsigned long i = 0; i<framesPerBuffer; i++) //Every sample should be processed
 	{
 		float phase = modFreq * (counter++);
@@ -67,7 +67,11 @@ bool EffectVibrato::setProp(unsigned i, double v)
 	if (i < props.size())
 	{
 		ret = props[i].setValue(v);
-		if (i == 1) buff.resize((props[1].getValue() / 1000) * 44100, 0);
+		if (i == 1 && ret)
+		{
+			buff.resize((props[1].getValue() / 1000) * 44100, 0);
+			dpw = 0;
+		}
 	}
 	
 	return ret;
