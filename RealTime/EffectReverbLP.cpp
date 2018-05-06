@@ -10,7 +10,7 @@ EffectReverbLP::EffectReverbLP() : Effect(std::string("Reverb LP"))
 	props[2].setValue(100);
 	buff = std::vector<float>((unsigned)(props[2].getValue() * 44100.0 * 2.0/1000.0), 0);
 	dpw = 0; // As the buffer will be circular (else, infinite memory would be needed) we need a write pointer
-	dpr = buff.size() / 2;
+	dpr = buff.size() / 2;	//The difference between dpw and dpr is the delay
 }
 
 bool EffectReverbLP::next(const void * inputBuffer, void * outputBuffer, unsigned long framesPerBuffer)
@@ -18,11 +18,10 @@ bool EffectReverbLP::next(const void * inputBuffer, void * outputBuffer, unsigne
 	float *in = (float*)inputBuffer;
 	float *out = (float*)outputBuffer;
 	float a = 0.7; float b_0 = 0.3; float b_1 = 0.3;
-	float x_hold = 0; float y_hold = 0; float yh = 0;
+	float x_hold = 0; float yh = 0;
 	for (unsigned long i = 0; i<framesPerBuffer; i++) //Every sample should be processed
 	{
-		yh = b_1 * x_hold - a * y_hold;
-		y_hold = yh;
+		yh = b_1 * x_hold - a * yh;		//Difference equation y[n] = b_0 * x[n] + b_1 * x[n-1] - a_1 * y[n-1]
 		x_hold = buff[(dpr + i) % buff.size()];
 		out[i] = (float)(props[1].getValue() * *(in++)+props[0].getValue() * yh); //And is added to the current sample (with a coefficient) LINE A
 		buff[(dpw + i) % buff.size()] = out[i]; // The output is saved (also with a coefficient) LINE B
