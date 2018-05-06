@@ -21,7 +21,7 @@ int main(void)
 	EffectReverbLP e6;
 	Effect3D e7;
 	vector<Effect*> effs = { &e1,&e2,&e3,&e4,&e5,&e6,&e7 };
-	RealTimeEffects r = RealTimeEffects(effs);
+	RealTimeEffects r = RealTimeEffects(effs,44100);
 	if (r.start() == true)
 	{
 		while (r.run() == true);

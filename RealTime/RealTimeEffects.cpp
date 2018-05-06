@@ -11,12 +11,12 @@ int RealTimeEffects::callback(const void *inputBuffer, void *outputBuffer,
 	return paContinue;
 }
 
-RealTimeEffects::RealTimeEffects(std::vector<Effect*>& eff)
+RealTimeEffects::RealTimeEffects(std::vector<Effect*>& eff,unsigned sR)
 {
 	effects = eff;
 	running = false;
 	currEff = 0;
-	sampleRate = 44100;
+	sampleRate = sR;
 	buffSize = 512;
 }
 
