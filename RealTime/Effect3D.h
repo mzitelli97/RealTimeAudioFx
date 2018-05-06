@@ -6,6 +6,7 @@ class Effect3D :
 	
 	public:
 	bool next(const void * inputBuffer, void * outputBuffer, unsigned long framesPerBuffer)override;
+	bool setProp(unsigned i, double v)override;
 	Effect3D();
 	~Effect3D();
 
