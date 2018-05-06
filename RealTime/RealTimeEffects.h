@@ -1,12 +1,13 @@
 #pragma once
 #include <vector>
 #include <iostream>
+#include "sndfile.h"
 #include "Effect.h"
 #include "portaudio.h"
 class RealTimeEffects
 {
 public:
-	RealTimeEffects(std::vector<Effect*>& eff);
+	RealTimeEffects(std::vector<Effect*>& eff,unsigned sR);
 
 	bool start();
 	bool run();
@@ -32,7 +33,7 @@ private:
 	PaStreamParameters		inputParameters, outputParameters;
 
 
-	double sampleRate;
+	unsigned sampleRate;
 	unsigned buffSize;
 
 	std::string error;
