@@ -1,10 +1,11 @@
 #include "EffectVibrato.h"
+#include "LFO.h"
 #include <iostream>
 #include <cmath>
 #include <queue>
 
 #define FREQ_DEFAULT 5
-#define WIDTH_DEFAULT 15
+#define WIDTH_DEFAULT 10
 #define DEPTH_DEFAULT 0.25	//for chorus effect
 
 #define PI 3.14159265
@@ -28,19 +29,18 @@ bool EffectVibrato::next(const void * inputBuffer, void * outputBuffer, unsigned
 {
 	float *in = (float*)inputBuffer;
 	float *out = (float*)outputBuffer;
-	float modFreq = props[0].getValue() / (44100.0);	//Normalized LFO frequency
 	float BL = 0.5; float FF = 0; float FB = 1;
 	for (unsigned long i = 0; i<framesPerBuffer; i++) //Every sample should be processed
 	{
-		float phase = modFreq * (counter++);
-		if (phase >= 1)
+		float phase = props[0].getValue() * (counter++);
+		if (phase >= sampleRate)
 		{
 			phase = 0;
 			counter = 0;
 		}
 		float maxDev = 44100.0 * (props[1].getValue() / 1000.0) * props[2].getValue();
 		if (maxDev == 0) maxDev = 1;
-		float currentDelay = maxDev * (1 + 1 * sin(2 * PI * phase));	//Modulated delay
+		float currentDelay = maxDev * 2 * lfo(sampleRate, phase, Sawtooth);	//Modulated delay
 		dpr = dpw + currentDelay + 2.0;	//Position to read given the actual sample and the delay
 		while (dpr >= buff.size()) dpr -= buff.size();
 

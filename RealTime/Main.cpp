@@ -5,6 +5,7 @@
 #include "EffectWhisper.h"
 #include "EffectDistortionHC.h"
 #include "EffectReverbLP.h"
+#include "EffectPhaser.h"
 #include "Effect3D.h"
 #include <iostream>
 using namespace std;
@@ -20,7 +21,8 @@ int main(void)
 	EffectDistortionHC e5;
 	EffectReverbLP e6;
 	Effect3D e7;
-	vector<Effect*> effs = { &e1,&e2,&e3,&e4,&e5,&e6,&e7 };
+	EffectPhaser e8;
+	vector<Effect*> effs = { &e1,&e2,&e3,&e4,&e5,&e6,&e7,&e8 };
 	RealTimeEffects r = RealTimeEffects(effs,DEFAULT_SAMPLE_RATE);
 	if (r.start() == true)
 	{
