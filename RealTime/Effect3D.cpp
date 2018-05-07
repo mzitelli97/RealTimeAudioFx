@@ -10,8 +10,8 @@ bool Effect3D::next(const void * inputBuffer, void * outputBuffer, unsigned long
 	std::vector<float> leftOutput = std::vector<float>((unsigned)framesPerBuffer, 0);
 	std::vector<float> rightOutput = std::vector<float>((unsigned)framesPerBuffer, 0);
 	
-	hsFilter(inputBuffer,&leftOutput , framesPerBuffer, 0);
-	hsFilter(inputBuffer, &rightOutput, framesPerBuffer, 180);
+	hsFilter(inputBuffer,&leftOutput , framesPerBuffer, props[0].getValue());
+	hsFilter(inputBuffer, &rightOutput, framesPerBuffer, props[1].getValue());
 	float *out = (float*)outputBuffer;
 	float *in = (float*)inputBuffer;
 	//el output buffer para estereo va intercalando left y right
