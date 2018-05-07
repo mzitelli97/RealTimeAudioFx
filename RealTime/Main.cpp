@@ -5,6 +5,7 @@
 #include "EffectWhisper.h"
 #include "EffectDistortionHC.h"
 #include "EffectReverbLP.h"
+#include "EffectPhaser.h"
 #include "Effect3D.h"
 #include "EffectPlain.h"
 #include <iostream>
