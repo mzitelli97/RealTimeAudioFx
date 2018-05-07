@@ -138,6 +138,7 @@
     <ClInclude Include="EffectDelay.h" />
     <ClInclude Include="EffectDistortionHC.h" />
     <ClInclude Include="EffectPhaser.h" />
+    <ClInclude Include="EffectPlain.h" />
     <ClInclude Include="EffectReverbLP.h" />
     <ClInclude Include="EffectRobot.h" />
     <ClInclude Include="EffectVibrato.h" />
@@ -154,6 +155,7 @@
     <ClCompile Include="EffectDelay.cpp" />
     <ClCompile Include="EffectDistortionHC.cpp" />
     <ClCompile Include="EffectPhaser.cpp" />
+    <ClCompile Include="EffectPlain.cpp" />
     <ClCompile Include="EffectReverbLP.cpp" />
     <ClCompile Include="EffectRobot.cpp" />
     <ClCompile Include="EffectVibrato.cpp" />
