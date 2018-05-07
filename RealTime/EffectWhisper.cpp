@@ -18,9 +18,12 @@ bool EffectWhisper::next(const void * inputBuffer, void * outputBuffer, unsigned
 	memcpy(in.data(), in.data() + framesPerBuffer, sizeof(complex<float>)*framesPerBuffer);
 	//Ventaneo con ventana hanning y guardo los valores en el segundo segmento de la memoria
 	for (unsigned i = 0; i < framesPerBuffer; i++)
-		in[i + framesPerBuffer] = din[i] * (float)(1.0 / 2.0 * (1.0 - cos(2 * PI*i / (framesPerBuffer - 1))));
-
+		in[i + framesPerBuffer] = din[i];
+	
 	//Primera fft
+	//Copio los datos ventaneando
+	for (unsigned i = 0; i<framesPerBuffer; i++)
+		temp[i] = in[i] * (float)(1.0 / 2.0 * (1.0 - cos(2 * PI*i / (framesPerBuffer - 1))));
 	fft(temp.data(), in.data(), framesPerBuffer);
 	for (auto& c : temp)
 		c = polar(abs(c), 2 * PI*(float)rand() / RAND_MAX);
@@ -28,9 +31,11 @@ bool EffectWhisper::next(const void * inputBuffer, void * outputBuffer, unsigned
 	for (unsigned i = 0; i < framesPerBuffer / 2; i++)
 		dout[i] = temp[i + framesPerBuffer / 2].real();
 	//Segunda fft
+	//Copio los datos ventaneando
+	for (unsigned i = 0; i<framesPerBuffer; i++)
+		temp[i] = in[i + framesPerBuffer / 2] * (float)(1.0 / 2.0 * (1.0 - cos(2 * PI*i / (framesPerBuffer - 1))));
 	fft(temp.data(), in.data() + framesPerBuffer / 2, framesPerBuffer);
 	for (auto& c : temp)
-
 		c = polar(abs(c), 2 * PI*(float)rand() / RAND_MAX);
 	ifft(temp.data(), temp.data(), framesPerBuffer);
 	for (unsigned i = 0; i < framesPerBuffer / 2; i++)
@@ -39,9 +44,11 @@ bool EffectWhisper::next(const void * inputBuffer, void * outputBuffer, unsigned
 		dout[i + framesPerBuffer / 2] = temp[i + framesPerBuffer / 2].real();
 	}
 	//Tercera fft
+	//Copio los datos ventaneando
+	for (unsigned i = 0; i<framesPerBuffer; i++)
+		temp[i] = in[i + framesPerBuffer ] * (float)(1.0 / 2.0 * (1.0 - cos(2 * PI*i / (framesPerBuffer - 1))));
 	fft(temp.data(), in.data() + framesPerBuffer, framesPerBuffer);
 	for (auto& c : temp)
-
 		c = polar(abs(c), 2 * PI*(float)rand() / RAND_MAX);
 	ifft(temp.data(), temp.data(), framesPerBuffer);
 	for (unsigned i = 0; i < framesPerBuffer / 2; i++)
