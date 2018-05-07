@@ -5,6 +5,7 @@
 Effect::Effect(std::string s)
 {
 	name = s;
+	sampleRate = DEFAULT_SAMPLE_RATE;
 }
 
 bool Effect::next(const void * inputBuffer, void * outputBuffer, unsigned long framesPerBuffer)
@@ -28,6 +29,11 @@ bool Effect::setProp(unsigned i, double v)
 	if (i < props.size())
 		return props[i].setValue(v);
 	return false;
+}
+
+void Effect::setSampleRate(float sR)
+{
+	sampleRate = sR;
 }
 
 

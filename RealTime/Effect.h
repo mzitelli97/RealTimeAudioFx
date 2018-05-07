@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include "Properties.h"
+#define DEFAULT_SAMPLE_RATE 44100
 class Effect
 {
 public:
@@ -10,9 +11,11 @@ public:
 	virtual std::string getName();
     virtual std::vector<Properties> getProps();
 	virtual bool setProp(unsigned i, double v);
+	virtual void setSampleRate(float sR);
 	~Effect();
 protected:
 	std::vector<Properties> props;
 	std::string name;
+	float sampleRate;
 };
 

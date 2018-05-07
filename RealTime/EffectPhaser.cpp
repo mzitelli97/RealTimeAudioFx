@@ -23,7 +23,7 @@ bool EffectPhaser::next(const void * inputBuffer, void * outputBuffer, unsigned 
 	float phase = 0;
 	for (int i = 0; i < framesPerBuffer; i++)
 	{
-		phase = sampleCount * props[3].getValue() / 44100.0;
+		phase = sampleCount * props[3].getValue() / sampleRate;
 		if (phase >= 1.0)
 		{
 			phase -= 1.0;
@@ -45,7 +45,7 @@ bool EffectPhaser::next(const void * inputBuffer, void * outputBuffer, unsigned 
 			// since the LFO moves slowly, the difference won’t
 			// generally be audible.
 			if ((sampleCount++)%filterUpdateInt == 0)
-				filters[j].calculateCoeff(44100.0, props[3].getValue() + props[1].getValue() * lfo.execute_lfo(44100,phase, Sine));
+				filters[j].calculateCoeff(sampleRate, props[3].getValue() + props[1].getValue() * lfo.execute_lfo(sampleRate,phase, Sine));
 			filterSignal = filters[j].processSingleSampleRaw(filterSignal);
 		}
 		lastFilterOutput = filterSignal;

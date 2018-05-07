@@ -14,7 +14,7 @@ EffectVibrato::EffectVibrato() :Effect(std::string("Vibrato"))
 	props[0].setValue(FREQ_DEFAULT);
 	props[1].setValue(WIDTH_DEFAULT);	//Width of modulation in ms
 	props[2].setValue(DEPTH_DEFAULT);
-	buff = std::vector<float>((props[1].getValue()/1000.0)*44100 * (1 + props[2].getValue()), 0);
+	buff = std::vector<float>((props[1].getValue()/1000.0)*sampleRate * (1 + props[2].getValue()), 0);
 	dpw = 0; // As the buffer will be circular (else, infinite memory would be needed) we need a write pointer
 	counter = 0;
 }

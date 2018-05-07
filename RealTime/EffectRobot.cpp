@@ -35,7 +35,7 @@ bool EffectRobot::next(const void * inputBuffer, void * outputBuffer, unsigned l
 	ifft(temp.data(), temp.data(), framesPerBuffer);
 	for (unsigned i = 0; i < framesPerBuffer / 2; i++)
 	{
-		dout[i] = (dout[i] + temp[i].real()) / 2;
+		dout[i] = (dout[i] + temp[i].real());
 		dout[i + framesPerBuffer / 2] = temp[i + framesPerBuffer / 2].real();
 	}
 	//Tercera fft
@@ -44,7 +44,7 @@ bool EffectRobot::next(const void * inputBuffer, void * outputBuffer, unsigned l
 		c=abs(c);
 	ifft(temp.data(), temp.data(), framesPerBuffer);
 	for (unsigned i = 0; i < framesPerBuffer / 2; i++)
-		dout[i+framesPerBuffer/2] = (dout[i + framesPerBuffer / 2] + temp[i].real()) / 2;
+		dout[i+framesPerBuffer/2] = (dout[i + framesPerBuffer / 2] + temp[i].real());
 	for (unsigned i = 0; i <  framesPerBuffer; i += 1)
 	{
 		dout[2*framesPerBuffer-1-2*i] = dout[framesPerBuffer-1-i];

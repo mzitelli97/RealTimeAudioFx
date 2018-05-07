@@ -33,12 +33,18 @@ private:
 	PaStreamParameters		inputParameters, outputParameters;
 
 
-	unsigned sampleRate;
+	float sampleRate;
 	unsigned buffSize;
 
 	std::string error;
 	std::vector<Effect*> effects;
 	bool running;
 	unsigned currEff;
+	unsigned mode; //1 audio - 2 wav
+	unsigned inChannels;
+	unsigned outChannels;
+	//Wav data
+	std::vector<float> wav;
+	unsigned offset;
 };
 
