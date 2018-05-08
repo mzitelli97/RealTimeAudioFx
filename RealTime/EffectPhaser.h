@@ -2,7 +2,6 @@
 #include "Effect.h"
 #include <vector>
 #include "AllPassFilter.h"
-#include "LFO.h"
 
 class EffectPhaser :
 	public Effect
@@ -15,6 +14,5 @@ private:
 	float lastFilterOutput;
 	unsigned int filterCount, sampleCount, filterUpdateInt;
 	std::vector<AllPassFilter> filters;
-	LFO lfo;
 };
 

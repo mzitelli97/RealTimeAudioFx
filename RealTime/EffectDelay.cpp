@@ -8,7 +8,7 @@ EffectDelay::EffectDelay() :Effect(std::string("Delay"))
 	props[0].setValue(0.6);
 	props[1].setValue(0.7);
 	props[2].setValue(200);
-	buff = std::vector<float>((unsigned)(props[2].getValue() * 44100.0 * 2.0 / 1000.0),0);
+	buff = std::vector<float>((unsigned)(props[2].getValue() * sampleRate * 2.0 / 1000.0),0);
 	dpw = 0; // As the buffer will be circular (else, infinite memory would be needed) we need a write pointer
 	dpr = buff.size()/2;
 }
@@ -57,7 +57,7 @@ bool EffectDelay::setProp(unsigned i, double v)
 		ret = props[i].setValue(v);
 		if (i == 2 && ret)
 		{
-			buff.resize(props[2].getValue() * 44100.0 * 2.0 / 1000.0, 0);
+			buff.resize(props[2].getValue() * sampleRate * 2.0 / 1000.0, 0);
 			dpw = 0;
 			dpr = buff.size() / 2;
 		}

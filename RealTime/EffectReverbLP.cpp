@@ -8,7 +8,7 @@ EffectReverbLP::EffectReverbLP() : Effect(std::string("Reverb LP"))
 	props[0].setValue(0.7);
 	props[1].setValue(1);
 	props[2].setValue(100);
-	buff = std::vector<float>((unsigned)(props[2].getValue() * 44100.0 * 2.0/1000.0), 0);
+	buff = std::vector<float>((unsigned)(props[2].getValue() * sampleRate * 2.0/1000.0), 0);
 	dpw = 0; // As the buffer will be circular (else, infinite memory would be needed) we need a write pointer
 	dpr = buff.size() / 2;	//The difference between dpw and dpr is the delay
 }
@@ -46,7 +46,7 @@ bool EffectReverbLP::setProp(unsigned i, double v)
 		ret = props[i].setValue(v);
 		if (i == 2 && ret)
 		{
-			buff.resize(props[2].getValue() * 44100.0 * 2.0 / 1000.0, 0);
+			buff.resize(props[2].getValue() * sampleRate * 2.0 / 1000.0, 0);
 			dpw = 0;
 			dpr = buff.size() / 2;
 		}
