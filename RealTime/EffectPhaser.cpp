@@ -13,7 +13,7 @@ EffectPhaser::EffectPhaser() : Effect(std::string("Phaser"))
 	filterCount = 10;
 	filters = std::vector<AllPassFilter>(filterCount);
 	sampleCount = 0;
-	filterUpdateInt = 0;
+	filterUpdateInt = 10;
 }
 
 bool EffectPhaser::next(const void * inputBuffer, void * outputBuffer, unsigned long framesPerBuffer)
