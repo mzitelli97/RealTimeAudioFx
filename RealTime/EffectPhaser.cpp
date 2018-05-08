@@ -1,16 +1,22 @@
 #include "EffectPhaser.h"
 #include "LFO.h"
 
+#define DEFAULT_DEPTH 1
+#define DEFAULT_SWEEP 220 //In Hz (LFO amplitud)
+#define DEFAULT_MIN_FREQ 440
+#define DEFAULT_FEEDBACK 0.7
+#define DEFAULT_LFO_FREQ 0.5
+
 
 EffectPhaser::EffectPhaser() : Effect(std::string("Phaser"))
 {
 	props = { Properties(std::string("Depth"),0,1),Properties(std::string("Sweep Width"),0,2000),Properties(std::string("Feedback"),0,0.99),
-		Properties(std::string("Base Frequency"),0,1000), Properties(std::string("LFO Frequency"),0,15) };
-	props[0].setValue(1);
-	props[1].setValue(2000);
-	props[2].setValue(0.7);
-	props[3].setValue(80);
-	props[4].setValue(0.05);
+		Properties(std::string("Base Frequency"),0,1000), Properties(std::string("LFO Frequency"),0,10) };
+	props[0].setValue(DEFAULT_DEPTH);
+	props[1].setValue(DEFAULT_SWEEP);
+	props[2].setValue(DEFAULT_FEEDBACK);
+	props[3].setValue(DEFAULT_MIN_FREQ);
+	props[4].setValue(DEFAULT_LFO_FREQ);
 	lastFilterOutput = 0;
 	filterCount = 4;
 	filters = std::vector<AllPassFilter>(filterCount);

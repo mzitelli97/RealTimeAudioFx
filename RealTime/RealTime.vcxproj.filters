@@ -13,39 +13,21 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Effects">
+      <UniqueIdentifier>{5ddd1047-9ed0-44e2-9825-875e63172ad3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Effects">
+      <UniqueIdentifier>{387d4dd3-958a-4e81-b902-e975452c9289}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Effect.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="RealTimeEffects.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Properties.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="EffectDelay.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="FFT.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="EffectRobot.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="EffectVibrato.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="EffectWhisper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="EffectDistortionHC.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="EffectReverbLP.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Effect3D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="LFO.h">
@@ -54,17 +36,41 @@
     <ClInclude Include="AllPassFilter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Effect.h">
+      <Filter>Header Files\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="Effect3D.h">
+      <Filter>Header Files\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="EffectDelay.h">
+      <Filter>Header Files\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="EffectDistortionHC.h">
+      <Filter>Header Files\Effects</Filter>
+    </ClInclude>
     <ClInclude Include="EffectPhaser.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Effects</Filter>
     </ClInclude>
     <ClInclude Include="EffectPlain.h">
+      <Filter>Header Files\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="EffectReverbLP.h">
+      <Filter>Header Files\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="EffectRobot.h">
+      <Filter>Header Files\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="EffectVibrato.h">
+      <Filter>Header Files\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="EffectWhisper.h">
+      <Filter>Header Files\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="NotchFilter2Order.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Effect.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="RealTimeEffects.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -74,28 +80,7 @@
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="EffectDelay.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="FFT.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="EffectRobot.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="EffectVibrato.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="EffectWhisper.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Effect3D.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="EffectDistortionHC.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="EffectReverbLP.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="LFO.cpp">
@@ -104,10 +89,37 @@
     <ClCompile Include="AllPassFilter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Effect.cpp">
+      <Filter>Source Files\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="Effect3D.cpp">
+      <Filter>Source Files\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="EffectDelay.cpp">
+      <Filter>Source Files\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="EffectDistortionHC.cpp">
+      <Filter>Source Files\Effects</Filter>
+    </ClCompile>
     <ClCompile Include="EffectPhaser.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Effects</Filter>
     </ClCompile>
     <ClCompile Include="EffectPlain.cpp">
+      <Filter>Source Files\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="EffectReverbLP.cpp">
+      <Filter>Source Files\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="EffectRobot.cpp">
+      <Filter>Source Files\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="EffectVibrato.cpp">
+      <Filter>Source Files\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="EffectWhisper.cpp">
+      <Filter>Source Files\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="NotchFilter2Order.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
