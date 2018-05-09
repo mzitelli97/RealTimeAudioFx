@@ -1,7 +1,7 @@
 #include "Effect3D.h"
 #include "cmath"
 #define PI 3.14159265358979323846 
-#define SAMPLE_FREQ 44100
+#define SAMPLE_FREQ 44100.0
 
 
 bool Effect3D::next(const void * inputBuffer, void * outputBuffer, unsigned long framesPerBuffer)
@@ -24,7 +24,7 @@ bool Effect3D::next(const void * inputBuffer, void * outputBuffer, unsigned long
 
 
 
-	return false;
+	return true;
 }
 
 Effect3D::Effect3D():Effect("3D")
@@ -48,13 +48,13 @@ bool Effect3D::setProp(unsigned i, double v)
 
 bool Effect3D::hsFilter(const void * inputBuffer, std::vector<float> * outputBuffer, unsigned long framesPerBuffer, float theta)
 {
-	float Fs = SAMPLE_FREQ;
+	float Fs = sampleRate;
 	float thetaO = 150;
-	float c = 334;
+	float c = 334.0;
 	float a = 0.08;
 	float wo = c / a;
 	float alphamin = 0.05;
-	float alpha = 1 + alphamin + (1 - alphamin)*(cos( (theta/thetaO) *PI));
+	float alpha = 1 + alphamin/2 + (1 - alphamin/2)*(cos( (theta/thetaO)*PI));
 	float gDelay = 0;
 
 	float *in = (float*)inputBuffer;
@@ -64,10 +64,11 @@ bool Effect3D::hsFilter(const void * inputBuffer, std::vector<float> * outputBuf
 	std::vector<float>::iterator tempIt=buff.begin();
 	
 	/*--------Head shadow---------*/
-	*tempIt++ = *in++*(wo + alpha * Fs);
+	*tempIt++ = (*in++)*(wo +Fs);
+	//*tempIt++ = *in++;
 	for (unsigned long i = 0; i < framesPerBuffer - 1; i++, tempIt++, in++)
 		//*tempIt = *in;
-		*tempIt =( -(wo - Fs)*(*(tempIt - 1)) + (*in)*(wo + alpha * Fs) + (wo - alpha * Fs)*(*(in - 1)) )/(wo-Fs);
+		*tempIt =( -(wo - Fs)*(*(tempIt - 1)) + (*in)*(wo +alpha*Fs) + (wo - alpha * Fs)*(*(in - 1)) )/(wo+Fs);
 
 	if (abs(theta) < 90)
 		gDelay = -(Fs /wo)*(cos(theta*PI / 180) - 1);
@@ -77,6 +78,7 @@ bool Effect3D::hsFilter(const void * inputBuffer, std::vector<float> * outputBuf
 	float gCoef = (1-gDelay)/(1+gDelay);
 	/*------- IDT ---------------*/
 	tempIt = buff.begin();
+	//*out++ = *tempIt++;
 	*out++ = gCoef *(*tempIt++);
 	for (unsigned long i = 0; i < framesPerBuffer - 1; i++, out++, tempIt++)
 		//*out = *tempIt;

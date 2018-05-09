@@ -64,7 +64,7 @@ bool RealTimeEffects::start()
 
 		/* Open the WAV file. */
 		info.format = 0;
-		sf = sf_open("./Wavs/test.wav", SFM_READ, &info);
+		sf = sf_open("./Wavs/indio_3.wav", SFM_READ, &info);
 		if (sf == NULL)
 		{
 			printf("Failed to open the file.\n");
