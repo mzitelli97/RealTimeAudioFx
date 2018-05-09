@@ -2,6 +2,7 @@
 #include "Effect.h"
 #include <vector>
 #include "AllPassFilter.h"
+#include "NotchFilter2Order.h"
 
 class EffectPhaser :
 	public Effect
@@ -13,6 +14,7 @@ public:
 private:
 	float lastFilterOutput;
 	unsigned int filterCount, sampleCount, filterUpdateInt;
+	NotchFilter2Order notch;
 	std::vector<AllPassFilter> filters;
 };
 

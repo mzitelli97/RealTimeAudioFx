@@ -1,17 +1,19 @@
 #pragma once
 #include "Effect.h"
 #include "UniversalCombFilter.h"
-class EffectDelay :
+#include <vector>
+
+class EffectReverbFull :
 	public Effect
 {
 public:
-	EffectDelay();
+	EffectReverbFull();
 	bool next(const void * inputBuffer, void * outputBuffer, unsigned long framesPerBuffer)override;
 	bool setProp(unsigned i, double v)override;
-	~EffectDelay();
+	virtual ~EffectReverbFull();
 private:
-	std::vector<float> buff;
-	UniversalCombFilter *filter;
-	unsigned dpw,dpr;
+	std::vector<UniversalCombFilter> combFilters;
+	std::vector<UniversalCombFilter> allPassFilters;
+
 };
 

@@ -139,6 +139,7 @@
     <ClInclude Include="EffectDistortionHC.h" />
     <ClInclude Include="EffectPhaser.h" />
     <ClInclude Include="EffectPlain.h" />
+    <ClInclude Include="EffectReverbFull.h" />
     <ClInclude Include="EffectReverbLP.h" />
     <ClInclude Include="EffectRobot.h" />
     <ClInclude Include="EffectVibrato.h" />
@@ -148,6 +149,7 @@
     <ClInclude Include="NotchFilter2Order.h" />
     <ClInclude Include="RealTimeEffects.h" />
     <ClInclude Include="Properties.h" />
+    <ClInclude Include="UniversalCombFilter.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AllPassFilter.cpp" />
@@ -157,6 +159,7 @@
     <ClCompile Include="EffectDistortionHC.cpp" />
     <ClCompile Include="EffectPhaser.cpp" />
     <ClCompile Include="EffectPlain.cpp" />
+    <ClCompile Include="EffectReverbFull.cpp" />
     <ClCompile Include="EffectReverbLP.cpp" />
     <ClCompile Include="EffectRobot.cpp" />
     <ClCompile Include="EffectVibrato.cpp" />
@@ -167,6 +170,7 @@
     <ClCompile Include="NotchFilter2Order.cpp" />
     <ClCompile Include="RealTimeEffects.cpp" />
     <ClCompile Include="Properties.cpp" />
+    <ClCompile Include="UniversalCombFilter.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -69,6 +69,12 @@
     <ClInclude Include="NotchFilter2Order.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="UniversalCombFilter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EffectReverbFull.h">
+      <Filter>Header Files\Effects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="RealTimeEffects.cpp">
@@ -121,6 +127,12 @@
     </ClCompile>
     <ClCompile Include="NotchFilter2Order.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UniversalCombFilter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EffectReverbFull.cpp">
+      <Filter>Source Files\Effects</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

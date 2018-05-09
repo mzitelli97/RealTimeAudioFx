@@ -2,9 +2,9 @@
 #include "LFO.h"
 
 #define DEFAULT_DEPTH 1
-#define DEFAULT_SWEEP 220 //In Hz (LFO amplitud)
-#define DEFAULT_MIN_FREQ 440
-#define DEFAULT_FEEDBACK 0.7
+#define DEFAULT_SWEEP 440 //In Hz (LFO amplitud)
+#define DEFAULT_MIN_FREQ 220
+#define DEFAULT_FEEDBACK 0
 #define DEFAULT_LFO_FREQ 0.5
 
 
@@ -18,7 +18,7 @@ EffectPhaser::EffectPhaser() : Effect(std::string("Phaser"))
 	props[3].setValue(DEFAULT_MIN_FREQ);
 	props[4].setValue(DEFAULT_LFO_FREQ);
 	lastFilterOutput = 0;
-	filterCount = 4;
+	filterCount = 1;
 	filters = std::vector<AllPassFilter>(filterCount);
 	sampleCount = 0;
 	filterUpdateInt = 4;
@@ -31,10 +31,10 @@ bool EffectPhaser::next(const void * inputBuffer, void * outputBuffer, unsigned 
 	float phase = 0;
 	for (int i = 0; i < framesPerBuffer; i++)
 	{
-		phase = sampleCount * props[4].getValue() / sampleRate;
-		if (phase >= 1.0)
+		phase = (sampleCount++) * props[4].getValue();
+		if (phase >= sampleRate)
 		{
-			phase -= 1.0;
+			phase -= sampleRate;
 			sampleCount = 0;
 		}
 		float filterSignal = in[i];
@@ -42,7 +42,7 @@ bool EffectPhaser::next(const void * inputBuffer, void * outputBuffer, unsigned 
 		// last sample in the input of the allpass filter chain.
 		if (props[2].getValue() != 0)
 			filterSignal += props[2].getValue() * lastFilterOutput;
-		for (int j = 0; j < filterCount; j++)
+		/*for (int j = 0; j < filterCount; j++)
 		{
 			// First, update the current allpass filter
 			// coefficients depending on the parameter settings
@@ -53,14 +53,17 @@ bool EffectPhaser::next(const void * inputBuffer, void * outputBuffer, unsigned 
 			// since the LFO moves slowly, the difference won’t
 			// generally be audible.
 			//if (((sampleCount++) % filterUpdateInt) == 0)
-				filters[j].calculateCoeff(props[3].getValue() + props[1].getValue() * lfo(sampleRate,phase, Sine), sampleRate);
-			filterSignal = filters[j].processSingleSampleRaw(filterSignal);
-		}
+				//filters[j].calculateCoeff(props[3].getValue() + props[1].getValue() * lfo(sampleRate,phase, Sine), sampleRate);
+			//filterSignal = filters[j].processSingleSampleRaw(filterSignal);
+		}*/
+		notch.calculateCoeff(props[3].getValue() + props[1].getValue() * lfo(sampleRate, phase, Sine), sampleRate);
+		filterSignal = notch.processSingleSampleRaw(filterSignal);
 		lastFilterOutput = filterSignal;
 		// Add the allpass signal to the output
 		// depth = 0 --> input only ; depth = 1 --> evenly
 		// balanced input and output
-		out[i] = (1.0 - 0.5f*props[0].getValue()) * in[i] + 0.5f*props[0].getValue()*filterSignal;
+		//out[i] = (1.0 - 0.5*props[0].getValue()) * in[i] + 0.5*props[0].getValue()*filterSignal;
+		out[i] = in[i] - filterSignal;
 	}
 	for (unsigned i = 0; i < framesPerBuffer; i++)
 	{
