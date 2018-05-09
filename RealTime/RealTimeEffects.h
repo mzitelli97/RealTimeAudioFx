@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <iostream>
+#include <Windows.h>
 #include "sndfile.h"
 #include "Effect.h"
 #include "portaudio.h"
@@ -22,6 +23,7 @@ public:
 	std::string getError();
 	~RealTimeEffects();
 private:
+	std::string getUserPath();
 	/* Port Audio info*/
 	static int callback(const void *inputBuffer, void *outputBuffer,
 		unsigned long framesPerBuffer,
@@ -29,10 +31,7 @@ private:
 		PaStreamCallbackFlags statusFlags,
 		void *userData);
 	PaStream				*stream;
-
 	PaStreamParameters		inputParameters, outputParameters;
-
-
 	float sampleRate;
 	unsigned buffSize;
 

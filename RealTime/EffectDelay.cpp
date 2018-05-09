@@ -8,6 +8,8 @@ EffectDelay::EffectDelay() :Effect(std::string("Delay"))
 	props[0].setValue(0.6);
 	props[1].setValue(0.7);
 	props[2].setValue(200);
+	filter = new UniversalCombFilter(false);
+	filter->setDelay(props[2].getValue() * sampleRate / 1000.0);
 	buff = std::vector<float>((unsigned)(props[2].getValue() * sampleRate * 2.0 / 1000.0),0);
 	dpw = 0; // As the buffer will be circular (else, infinite memory would be needed) we need a write pointer
 	dpr = buff.size()/2;
@@ -18,7 +20,7 @@ bool EffectDelay::next(const void * inputBuffer, void * outputBuffer, unsigned l
 	//esto implementa un filtro comb universal
 	float *in = (float*)inputBuffer;
 	float *out = (float*)outputBuffer;
-	float BL = -0.7; float FB = 0.7; float FF = 1;
+	/*float BL = -0.7; float FB = 0.7; float FF = 1;
 	for (unsigned long i = 0; i < framesPerBuffer; i++) //Every sample should be processed
 	{
 		float temp = buff[(dpr + i) % buff.size()]; //The older sample is retrieved
@@ -31,7 +33,7 @@ bool EffectDelay::next(const void * inputBuffer, void * outputBuffer, unsigned l
 	{
 		out[2 * framesPerBuffer - 1 - 2 * i] = out[framesPerBuffer - 1 - i];
 		out[2 * framesPerBuffer - 2 - 2 * i] = out[framesPerBuffer - 1 - i];
-	}
+	}/*
 	//To explain what this does in terms of digital systems and signals analysis, this "effect" has the following shape
 	// y(n) = feedback_*y(n-delay_)+dry_wet_*x(n)
 	//The second term is easy to appreciate in LINE A, where the raw input is taken directly to the ouptut (attenuated by dry_wet_)
@@ -42,10 +44,16 @@ bool EffectDelay::next(const void * inputBuffer, void * outputBuffer, unsigned l
 	//ending in saturation (and believe me, your PC's speakers don't like that too much) 
 
 	//Pointer incrementation, considering the buffer is circular
-	dpw += framesPerBuffer;
+	/*dpw += framesPerBuffer;
 	dpr += framesPerBuffer;
 	dpw %= buff.size();
-	dpr %= buff.size();
+	dpr %= buff.size();*/
+	filter->combFilter(-0.7, 0.7, 1, in, out, framesPerBuffer);
+	for (unsigned i = 0; i < framesPerBuffer; i++)
+	{
+		out[2 * framesPerBuffer - 1 - 2 * i] = out[framesPerBuffer - 1 - i];
+		out[2 * framesPerBuffer - 2 - 2 * i] = out[framesPerBuffer - 1 - i];
+	}
 	return true;
 }
 
@@ -60,6 +68,7 @@ bool EffectDelay::setProp(unsigned i, double v)
 			buff.resize(props[2].getValue() * sampleRate * 2.0 / 1000.0, 0);
 			dpw = 0;
 			dpr = buff.size() / 2;
+			filter->setDelay(props[2].getValue() * sampleRate / 1000.0);
 		}
 	}
 	return ret;
@@ -67,4 +76,6 @@ bool EffectDelay::setProp(unsigned i, double v)
 
 EffectDelay::~EffectDelay()
 {
+	if (filter != nullptr)
+		delete filter;
 }
