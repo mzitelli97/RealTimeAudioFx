@@ -8,6 +8,7 @@
 #include "EffectPhaser.h"
 #include "Effect3D.h"
 #include "EffectPlain.h"
+#include "EffectReverbFull.h"
 #include <iostream>
 using namespace std;
 
@@ -18,13 +19,14 @@ int main(void)
 	EffectPlain e1;
 	EffectDelay e2;
 	EffectReverbLP e3;
-	EffectVibrato e4;
-	EffectPhaser e5;
-	EffectDistortionHC e6;
-	Effect3D e7;
-	EffectRobot e8;
-	EffectWhisper e9;
-	vector<Effect*> effs = { &e1,&e2,&e3,&e4,&e5,&e6,&e7,&e8,&e9 };
+	EffectReverbFull e4;
+	EffectVibrato e5;
+	EffectPhaser e6;
+	EffectDistortionHC e7;
+	Effect3D e8;
+	EffectRobot e9;
+	EffectWhisper e10;
+	vector<Effect*> effs = { &e1,&e2,&e3,&e4,&e5,&e6,&e7,&e8,&e9,&e10 };
 	RealTimeEffects r = RealTimeEffects(effs,DEFAULT_SAMPLE_RATE);
 	if (r.start() == true)
 	{

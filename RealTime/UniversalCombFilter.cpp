@@ -5,6 +5,7 @@
 UniversalCombFilter::UniversalCombFilter(bool lowPass)
 {
 	this->lowPassFeedback = lowPass;
+	delay = 0;
 	buff = std::vector<float>((unsigned)(2 * delay), 0);
 	dpw = 0; // As the buffer will be circular (else, infinite memory would be needed) we need a write pointer
 	dpr = buff.size() / 2;
@@ -43,6 +44,12 @@ bool UniversalCombFilter::setDelay(unsigned int delay)
 	buff.resize(delay * 2.0, 0);
 	dpw = 0;
 	dpr = buff.size() / 2;
+	return true;
+}
+
+bool UniversalCombFilter::setLowPassFeedback(bool lowpass)
+{
+	this->lowPassFeedback = lowpass;
 	return true;
 }
 

@@ -3,6 +3,9 @@
 #include "UniversalCombFilter.h"
 #include <vector>
 
+#define COMB_FILTER_COUNT 4
+#define ALLPASS_FILTER_COUNT 5
+
 class EffectReverbFull :
 	public Effect
 {
