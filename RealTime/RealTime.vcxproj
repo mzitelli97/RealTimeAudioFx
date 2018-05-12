@@ -135,8 +135,10 @@
     <ClInclude Include="AllPassFilter.h" />
     <ClInclude Include="Effect.h" />
     <ClInclude Include="Effect3D.h" />
+    <ClInclude Include="EffectChorus.h" />
     <ClInclude Include="EffectDelay.h" />
-    <ClInclude Include="EffectDistortionHC.h" />
+    <ClInclude Include="EffectDistortion.h" />
+    <ClInclude Include="EffectFlanger.h" />
     <ClInclude Include="EffectPhaser.h" />
     <ClInclude Include="EffectPlain.h" />
     <ClInclude Include="EffectReverbFull.h" />
@@ -155,8 +157,10 @@
     <ClCompile Include="AllPassFilter.cpp" />
     <ClCompile Include="Effect.cpp" />
     <ClCompile Include="Effect3D.cpp" />
+    <ClCompile Include="EffectChorus.cpp" />
     <ClCompile Include="EffectDelay.cpp" />
-    <ClCompile Include="EffectDistortionHC.cpp" />
+    <ClCompile Include="EffectDistortion.cpp" />
+    <ClCompile Include="EffectFlanger.cpp" />
     <ClCompile Include="EffectPhaser.cpp" />
     <ClCompile Include="EffectPlain.cpp" />
     <ClCompile Include="EffectReverbFull.cpp" />

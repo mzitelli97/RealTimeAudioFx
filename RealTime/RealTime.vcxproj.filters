@@ -45,9 +45,6 @@
     <ClInclude Include="EffectDelay.h">
       <Filter>Header Files\Effects</Filter>
     </ClInclude>
-    <ClInclude Include="EffectDistortionHC.h">
-      <Filter>Header Files\Effects</Filter>
-    </ClInclude>
     <ClInclude Include="EffectPhaser.h">
       <Filter>Header Files\Effects</Filter>
     </ClInclude>
@@ -73,6 +70,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="EffectReverbFull.h">
+      <Filter>Header Files\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="EffectChorus.h">
+      <Filter>Header Files\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="EffectFlanger.h">
+      <Filter>Header Files\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="EffectDistortion.h">
       <Filter>Header Files\Effects</Filter>
     </ClInclude>
   </ItemGroup>
@@ -104,9 +110,6 @@
     <ClCompile Include="EffectDelay.cpp">
       <Filter>Source Files\Effects</Filter>
     </ClCompile>
-    <ClCompile Include="EffectDistortionHC.cpp">
-      <Filter>Source Files\Effects</Filter>
-    </ClCompile>
     <ClCompile Include="EffectPhaser.cpp">
       <Filter>Source Files\Effects</Filter>
     </ClCompile>
@@ -132,6 +135,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="EffectReverbFull.cpp">
+      <Filter>Source Files\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="EffectChorus.cpp">
+      <Filter>Source Files\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="EffectFlanger.cpp">
+      <Filter>Source Files\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="EffectDistortion.cpp">
       <Filter>Source Files\Effects</Filter>
     </ClCompile>
   </ItemGroup>

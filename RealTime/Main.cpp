@@ -3,12 +3,14 @@
 #include "EffectRobot.h"
 #include "EffectVibrato.h"
 #include "EffectWhisper.h"
-#include "EffectDistortionHC.h"
+#include "EffectDistortion.h"
 #include "EffectReverbLP.h"
 #include "EffectPhaser.h"
 #include "Effect3D.h"
 #include "EffectPlain.h"
 #include "EffectReverbFull.h"
+#include "EffectChorus.h"
+#include "EffectFlanger.h"
 #include <iostream>
 using namespace std;
 
@@ -21,12 +23,14 @@ int main(void)
 	EffectReverbLP e3;
 	EffectReverbFull e4;
 	EffectVibrato e5;
-	EffectPhaser e6;
-	EffectDistortionHC e7;
-	Effect3D e8;
-	EffectRobot e9;
-	EffectWhisper e10;
-	vector<Effect*> effs = { &e1,&e2,&e3,&e4,&e5,&e6,&e7,&e8,&e9,&e10 };
+	EffectFlanger e6;
+	EffectChorus e7;
+	EffectPhaser e8;
+	EffectDistortion e9;
+	Effect3D e10;
+	EffectRobot e11;
+	EffectWhisper e12;
+	vector<Effect*> effs = { &e1,&e2,&e3,&e4,&e5,&e6,&e7,&e8,&e9,&e10,&e11,&e12 };
 	RealTimeEffects r = RealTimeEffects(effs,DEFAULT_SAMPLE_RATE);
 	if (r.start() == true)
 	{
