@@ -1,34 +1,34 @@
-#include "EffectVibrato.h"
+#include "EffectFlanger.h"
 #include "LFO.h"
 #include <iostream>
 #include <cmath>
-#include <queue>
 
 #define FREQ_DEFAULT 1
 #define WIDTH_DEFAULT 10
-#define DEPTH_DEFAULT 0.25	//for chorus effect
+#define DEPTH_DEFAULT 0.25
 
 #define PI 3.14159265
-EffectVibrato::EffectVibrato() :Effect(std::string("Vibrato"))
+EffectFlanger::EffectFlanger() :Effect(std::string("Flanger"))
 {
 	props = { Properties(std::string("Frequency"),0.1,15),Properties(std::string("Width"),0.2,30), Properties(std::string("Depht"),0,1) };
 	props[0].setValue(FREQ_DEFAULT);
 	props[1].setValue(WIDTH_DEFAULT);	//Width of modulation in ms
 	props[2].setValue(DEPTH_DEFAULT);
-	buff = std::vector<float>((props[1].getValue()/1000.0)*sampleRate * (1 + props[2].getValue()), 0);
+	buff = std::vector<float>((props[1].getValue() / 1000.0)*sampleRate * (1 + props[2].getValue()), 0);
 	dpw = 0; // As the buffer will be circular (else, infinite memory would be needed) we need a write pointer
 	counter = 0;
 }
 
 
-EffectVibrato::~EffectVibrato()
+EffectFlanger::~EffectFlanger()
 {
 }
 
-bool EffectVibrato::next(const void * inputBuffer, void * outputBuffer, unsigned long framesPerBuffer)
+bool EffectFlanger::next(const void * inputBuffer, void * outputBuffer, unsigned long framesPerBuffer)
 {
 	float *in = (float*)inputBuffer;
 	float *out = (float*)outputBuffer;
+	float BL = 0.7; float FF = 0.7; float FB = 0.7;
 	for (unsigned long i = 0; i<framesPerBuffer; i++) //Every sample should be processed
 	{
 		float phase = props[0].getValue() * (counter++);
@@ -46,11 +46,12 @@ bool EffectVibrato::next(const void * inputBuffer, void * outputBuffer, unsigned
 		//Linear Interpolation
 		unsigned M = floor(dpr);
 		float fraq = dpr - M;
-		float xh_M = fraq * buff[(M+1)%buff.size()]+ (1 - fraq) * buff[M%buff.size()];
+		float xh_M = fraq * buff[(M + 1) % buff.size()] + (1 - fraq) * buff[M%buff.size()];
 
-		buff[dpw] = in[i];
+		float xh = in[i] + FB * xh_M;
+		buff[dpw] = xh;
 		dpw = (++dpw) % buff.size();
-		out[i] = xh_M;
+		out[i] = BL * xh + FF * xh_M;
 	}
 	//Duplicate the output for stereo
 	for (unsigned i = 0; i < framesPerBuffer; i++)
@@ -61,7 +62,7 @@ bool EffectVibrato::next(const void * inputBuffer, void * outputBuffer, unsigned
 	return true;
 }
 
-bool EffectVibrato::setProp(unsigned i, double v)
+bool EffectFlanger::setProp(unsigned i, double v)
 {
 	bool ret = false;
 	if (i < props.size())
@@ -73,6 +74,6 @@ bool EffectVibrato::setProp(unsigned i, double v)
 			dpw = 0;
 		}
 	}
-	
+
 	return ret;
 }

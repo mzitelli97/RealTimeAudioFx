@@ -1,6 +1,12 @@
 #pragma once
 #include "Effect.h"
 #include "UniversalCombFilter.h"
+
+enum { Echo = 0, Plane, AllPass };			//Type of delay
+#define DELAY_DEFAULT 200
+#define FB_DEFAULT 0.7
+#define FF_DEFAULT 0.7
+
 class EffectDelay :
 	public Effect
 {
@@ -10,8 +16,6 @@ public:
 	bool setProp(unsigned i, double v)override;
 	~EffectDelay();
 private:
-	std::vector<float> buff;
 	UniversalCombFilter *filter;
-	unsigned dpw,dpr;
 };
 

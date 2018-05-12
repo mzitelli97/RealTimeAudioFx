@@ -4,20 +4,18 @@
 
 EffectDelay::EffectDelay() :Effect(std::string("Delay"))
 {
-	props = {Properties(std::string("Feedback"),0,1),Properties(std::string("Dry Wet"),0,1),Properties(std::string("Delay"),0,1024) };
-	props[0].setValue(0.6);
-	props[1].setValue(0.7);
-	props[2].setValue(200);
+	props = { Properties(std::string("Delay [ms]"),0,1000),Properties(std::string("Feedback"),0,1),
+		Properties(std::string("Feedforward"),0,1), Properties(std::string("Type [Echo, Plane, AllPass]"),0,2) };
+	props[0].setValue(DELAY_DEFAULT);	//Delay in ms
+	props[1].setValue(FB_DEFAULT);
+	props[2].setValue(FF_DEFAULT);
+	props[3].setValue(AllPass);
 	filter = new UniversalCombFilter(false);
-	filter->setDelay(props[2].getValue() * sampleRate / 1000.0);
-	buff = std::vector<float>((unsigned)(props[2].getValue() * sampleRate * 2.0 / 1000.0),0);
-	dpw = 0; // As the buffer will be circular (else, infinite memory would be needed) we need a write pointer
-	dpr = buff.size()/2;
+	filter->setDelay(props[0].getValue() * sampleRate / 1000.0);
 }
 
 bool EffectDelay::next(const void * inputBuffer, void * outputBuffer, unsigned long framesPerBuffer)
 {
-	//esto implementa un filtro comb universal
 	float *in = (float*)inputBuffer;
 	float *out = (float*)outputBuffer;
 	/*float BL = -0.7; float FB = 0.7; float FF = 1;
@@ -28,11 +26,6 @@ bool EffectDelay::next(const void * inputBuffer, void * outputBuffer, unsigned l
 		float xh = (float)(props[1].getValue() * *(in++) + FB * temp);
 		out[i] = FF * temp + BL * xh; //And is added to the current sample (with a coefficient) LINE A
 		buff[(dpw + i) % buff.size()] = xh; // The output is saved (also with a coefficient) LINE B
-	}
-	for (unsigned i = 0; i < framesPerBuffer; i++)
-	{
-		out[2 * framesPerBuffer - 1 - 2 * i] = out[framesPerBuffer - 1 - i];
-		out[2 * framesPerBuffer - 2 - 2 * i] = out[framesPerBuffer - 1 - i];
 	}/*
 	//To explain what this does in terms of digital systems and signals analysis, this "effect" has the following shape
 	// y(n) = feedback_*y(n-delay_)+dry_wet_*x(n)
@@ -40,15 +33,18 @@ bool EffectDelay::next(const void * inputBuffer, void * outputBuffer, unsigned l
 	//The first term of the equation appears as "temp" in LINE A. As you can see, in LINE B the output is stored with a coefficient (feedback_).
 	//delay_ samples later temps adquires that stored valued, so it appears as "feedback_*y(n-delay)" !
 
-	//WARNING: Be very careful with systems' stability. In this example, using feedback_ > 1 would increase the otput at each cycle
-	//ending in saturation (and believe me, your PC's speakers don't like that too much) 
-
-	//Pointer incrementation, considering the buffer is circular
 	/*dpw += framesPerBuffer;
 	dpr += framesPerBuffer;
 	dpw %= buff.size();
 	dpr %= buff.size();*/
-	filter->combFilter(-0.7, 0.7, 1, in, out, framesPerBuffer);
+	std::vector<double> parameters(3);
+	if (props[3].getValue() == Echo)
+		parameters = { 1,0,props[2].getValue() };	//BL, FB, FF
+	else if (props[3].getValue() == Plane)
+		parameters = { 1,props[1].getValue(),0 };	//BL, FB, FF
+	else //AllPass
+		parameters = {-props[1].getValue(), props[1].getValue(), 1};	//BL, FB, FF
+	filter->combFilter(parameters[0], parameters[1], parameters[2], in, out, framesPerBuffer);
 	for (unsigned i = 0; i < framesPerBuffer; i++)
 	{
 		out[2 * framesPerBuffer - 1 - 2 * i] = out[framesPerBuffer - 1 - i];
@@ -62,14 +58,10 @@ bool EffectDelay::setProp(unsigned i, double v)
 	bool ret = false;
 	if (i < props.size())
 	{
+		if (i == 3) v = floor(v);	//Redondeo
 		ret = props[i].setValue(v);
-		if (i == 2 && ret)
-		{
-			buff.resize(props[2].getValue() * sampleRate * 2.0 / 1000.0, 0);
-			dpw = 0;
-			dpr = buff.size() / 2;
-			filter->setDelay(props[2].getValue() * sampleRate / 1000.0);
-		}
+		if (i == 0 && ret)
+			filter->setDelay(props[0].getValue() * sampleRate / 1000.0);
 	}
 	return ret;
 }

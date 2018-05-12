@@ -5,6 +5,7 @@
 UniversalCombFilter::UniversalCombFilter(bool lowPass)
 {
 	this->lowPassFeedback = lowPass;
+	delay = 0;
 	buff = std::vector<float>((unsigned)(2 * delay), 0);
 	dpw = 0; // As the buffer will be circular (else, infinite memory would be needed) we need a write pointer
 	dpr = buff.size() / 2;
@@ -27,7 +28,7 @@ bool UniversalCombFilter::combFilter(float BL, float FB, float FF, float * in, f
 		buff[(dpw + i) % buff.size()] = xh; // The output is saved (also with a coefficient) LINE B
 	}
 	//To explain what this does in terms of digital systems and signals analysis, this "effect" has the following shape
-	// y(n) = feedback_*y(n-delay_)+dry_wet_*x(n)
+	// y[n] = FeedForward * y[n-delay] + BL * (0.7*x[n] + Feddback * y[n-delay])
 
 	//Pointer incrementation, considering the buffer is circular
 	dpw += len;
@@ -43,6 +44,12 @@ bool UniversalCombFilter::setDelay(unsigned int delay)
 	buff.resize(delay * 2.0, 0);
 	dpw = 0;
 	dpr = buff.size() / 2;
+	return true;
+}
+
+bool UniversalCombFilter::setLowPassFeedback(bool lowpass)
+{
+	this->lowPassFeedback = lowpass;
 	return true;
 }
 
