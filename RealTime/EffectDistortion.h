@@ -1,5 +1,7 @@
 #pragma once
 #include "Effect.h"
+#define GAIN_DEFAULT 1
+#define THRESHOLD_DEFAULT 0.01
 
 typedef enum { HardClipping, SoftClipping, ExpSoftClipping, HalfWaveRect, FullWaveRect, Distortion_count }Distortion_type;
 class EffectDistortion :

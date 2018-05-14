@@ -4,15 +4,16 @@
 class UniversalCombFilter
 {
 public:
-	UniversalCombFilter(bool lowPass = false);
+	UniversalCombFilter();
 	bool combFilter(float BL, float FB, float FF, float* in, float* out, unsigned len);
 	bool setDelay(unsigned int delay);
-	bool setLowPassFeedback(bool lowpass);
+	bool setLowPass(bool lowpass, float freq);
 	virtual ~UniversalCombFilter();
 private:
 	std::vector<float> buff;
 	unsigned dpw, dpr;
 	unsigned delay;
-	bool lowPassFeedback;
+	bool isLowPass;
+	float lowPassPole;
 };
 

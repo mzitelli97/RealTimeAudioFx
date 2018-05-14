@@ -4,7 +4,9 @@
 #include <vector>
 
 #define COMB_FILTER_COUNT 4
-#define ALLPASS_FILTER_COUNT 5
+#define ALLPASS_FILTER_COUNT 3
+#define REVERB_TIME_DEFAULT 2
+#define MIX_DEFAULT 0.5
 
 class EffectReverbFull :
 	public Effect
@@ -12,11 +14,11 @@ class EffectReverbFull :
 public:
 	EffectReverbFull();
 	bool next(const void * inputBuffer, void * outputBuffer, unsigned long framesPerBuffer)override;
-	bool setProp(unsigned i, double v)override;
 	virtual ~EffectReverbFull();
 private:
 	std::vector<UniversalCombFilter> combFilters;
 	std::vector<UniversalCombFilter> allPassFilters;
+	std::vector<float> combDelays;
 
 };
 

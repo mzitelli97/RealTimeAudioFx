@@ -2,11 +2,11 @@
 
 EffectDistortion::EffectDistortion() : Effect(std::string("Distortion"))
 {
-	props = { Properties(std::string("Threshold1"),0,1),  Properties(std::string("Threshold2"),0,1), 
-		Properties(std::string("Gain"),0,10), Properties(std::string("Type"),0,Distortion_count) };
-	props[0].setValue(1.0/3.0);
+	props = { Properties(std::string("Threshold"),0,1),  Properties(std::string("Threshold2"),0,1), Properties(std::string("Gain"),0,10), 
+		Properties(std::string("Type [HardC SoftPol SoftExp HalfRect FullRect]"),0,Distortion_count) };
+	props[0].setValue(THRESHOLD_DEFAULT);
 	props[1].setValue(2.0 / 3.0);
-	props[2].setValue(2.0);
+	props[2].setValue(GAIN_DEFAULT);
 	props[3].setValue(FullWaveRect);
 }
 
@@ -28,16 +28,16 @@ bool EffectDistortion::next(const void * inputBuffer, void * outputBuffer, unsig
 				out[i] = input;
 			break;
 		case SoftClipping:
-			if (input > props[1].getValue())
+			if (input > 2.0/3.0)
 				out[i] = 1;
-			else if (input > props[0].getValue())
+			else if (input > 1.0/3.0)
 				out[i] = 1.0 - pow(2 - 3 * (input), 2) / 3.0;
-			else if (input < -props[1].getValue())
+			else if (input < -2.0/3.0)
 				out[i] = -1;
-			else if (input < -props[0].getValue())
+			else if (input < -1.0/3.0)
 				out[i] = -1.0 + pow(2 - 3 * (input), 2) / 3.0;
 			else
-				out[i] = input;
+				out[i] = 2 * input;
 			break;
 		case ExpSoftClipping:
 			if (input > 0)

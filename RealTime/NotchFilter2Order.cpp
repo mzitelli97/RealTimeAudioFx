@@ -25,6 +25,7 @@ bool NotchFilter2Order::calculateCoeff(float centerFreq, float sampleFreq)
 	a_2 = pow(R, 2);
 
 	//Calculo la ganancia para normalizar la transferencia
+	gain = (a_0 + a_1 + a_2)/(b_0 + b_1 + b_2);
 	return true;
 }
 
@@ -33,7 +34,7 @@ float NotchFilter2Order::processSingleSampleRaw(const float sample)
 	// Process one sample, storing the previous input and output
 	//Difference equation: y[n]-2Rcos(w0)y[n-1]+R^2y[n-2]=x[n]-2cos(w0)x[n-1]+x[n-2]
 
-	float y = b_0 * sample + b_1 * x_1 + b_2 * x_2 - a_1 * y_1 - a_2 * y_2;
+	float y = gain * (b_0 * sample + b_1 * x_1 + b_2 * x_2) - a_1 * y_1 - a_2 * y_2;
 	x_2 = x_1;
 	x_1 = sample;
 	y_2 = y_1;

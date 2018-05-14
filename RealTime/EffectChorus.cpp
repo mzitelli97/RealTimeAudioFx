@@ -28,7 +28,7 @@ bool EffectChorus::next(const void * inputBuffer, void * outputBuffer, unsigned 
 {
 	float *in = (float*)inputBuffer;
 	float *out = (float*)outputBuffer;
-	float BL = 0.5; float FF = 0; float FB = 1;
+	float BL = 1; float FF = 0.7; float FB = 0;
 	for (unsigned long i = 0; i<framesPerBuffer; i++) //Every sample should be processed
 	{
 		float phase = props[0].getValue() * (counter++);
