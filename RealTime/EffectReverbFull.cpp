@@ -14,7 +14,7 @@ EffectReverbFull::EffectReverbFull() : Effect(std::string("Full Reverb"))
 	for (int i = 0; i < COMB_FILTER_COUNT; i++)
 	{
 		combFilters[i].setDelay(combDelays[i] * sampleRate);
-		//combFilters[i].setLowPassFeedback(true);
+		combFilters[i].setLowPass(true,2000/sampleRate);
 	}
 
 	for (int i = 0; i < ALLPASS_FILTER_COUNT; i++)

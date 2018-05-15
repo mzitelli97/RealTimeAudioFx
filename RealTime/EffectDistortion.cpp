@@ -2,12 +2,12 @@
 
 EffectDistortion::EffectDistortion() : Effect(std::string("Distortion"))
 {
-	props = { Properties(std::string("Threshold"),0,1),  Properties(std::string("Threshold2"),0,1), Properties(std::string("Gain"),0,10), 
-		Properties(std::string("Type [HardC SoftPol SoftExp HalfRect FullRect]"),0,Distortion_count) };
+	props = { Properties(std::string("Threshold"),0,1), Properties(std::string("Gain"),0,1000), 
+		Properties(std::string("Type [HardC SoftPol SoftExp HalfRect FullRect]"),0,Distortion_count-1) };
 	props[0].setValue(THRESHOLD_DEFAULT);
-	props[1].setValue(2.0 / 3.0);
-	props[2].setValue(GAIN_DEFAULT);
-	props[3].setValue(FullWaveRect);
+	props[1].setValue(GAIN_DEFAULT);
+	props[2].setValue(FullWaveRect);
+	type = (Distortion_type)((int)props[2].getValue());
 }
 
 bool EffectDistortion::next(const void * inputBuffer, void * outputBuffer, unsigned long framesPerBuffer)
@@ -16,7 +16,7 @@ bool EffectDistortion::next(const void * inputBuffer, void * outputBuffer, unsig
 	float *out = (float*)outputBuffer;
 	for (unsigned long i = 0; i<framesPerBuffer; i++) //Every sample should be processed
 	{
-		float input = in[i] * props[2].getValue();
+		float input = in[i] * props[1].getValue();
 		switch (type)
 		{
 		case HardClipping:
@@ -35,7 +35,7 @@ bool EffectDistortion::next(const void * inputBuffer, void * outputBuffer, unsig
 			else if (input < -2.0/3.0)
 				out[i] = -1;
 			else if (input < -1.0/3.0)
-				out[i] = -1.0 + pow(2 - 3 * (input), 2) / 3.0;
+				out[i] = -1.0 + pow(2 + 3 * (input), 2) / 3.0;
 			else
 				out[i] = 2 * input;
 			break;
@@ -71,7 +71,7 @@ bool EffectDistortion::setProp(unsigned i, double v)
 	if (i < props.size())
 	{
 		ret = props[i].setValue(v);
-		if (i == 3 && ret)
+		if (i == 2 && ret)
 		{
 			int aux = (int)v;
 			type = (Distortion_type)aux;

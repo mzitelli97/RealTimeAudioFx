@@ -4,7 +4,7 @@
 EffectReverbLP::EffectReverbLP() : Effect(std::string("Reverb LP"))
 {
 	props = { Properties(std::string("Delay"),0,1000) , Properties(std::string("Feedback"),0,1),  
-		Properties(std::string("Filter Frequency"),0,sampleRate) };
+		Properties(std::string("Filter Frequency"),0,sampleRate/4) };
 	props[0].setValue(DELAY_DEFAULT);
 	props[1].setValue(FB_DEFAULT);
 	props[2].setValue(FREQ_DEFAULT);

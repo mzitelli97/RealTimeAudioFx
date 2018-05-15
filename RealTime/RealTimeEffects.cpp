@@ -192,7 +192,7 @@ bool RealTimeEffects::run()
 
 					if (!effects[currEffect]->setProp(prop, val))
 					{
-						std::vector<double> lim = p[currEffect].getLimits();
+						std::vector<double> lim = p[prop].getLimits();
 						char dummy;
 						std::cout << "Values must be in range: [" << lim[0] << " , " << lim[1] << "]" << std::endl;
 						std::cout << "Press enter to continue" << std::endl;
