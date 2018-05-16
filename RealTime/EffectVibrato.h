@@ -1,6 +1,5 @@
 #pragma once
 #include "Effect.h"
-#include <list>
 class EffectVibrato :
 	public Effect
 {
@@ -11,7 +10,6 @@ public:
 	virtual ~EffectVibrato();
 private:
 	std::vector<float> buff;
-	std::list<float> delayLine;
 	unsigned dpw,counter;
 	float dpr;
 };

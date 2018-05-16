@@ -8,8 +8,8 @@ UniversalCombFilter::UniversalCombFilter()
 	lowPassPole = 0;
 	delay = 0;
 	buff = std::vector<float>((unsigned)(2 * delay), 0);
-	dpw = 0; // As the buffer will be circular (else, infinite memory would be needed) we need a write pointer
-	dpr = buff.size() / 2;
+	dpw = 0; //Puntero para escribir en el buffer circular
+	dpr = buff.size() / 2;	//La diferencia entre dpr y dpw establece el delay
 }
 
 bool UniversalCombFilter::combFilter(float BL, float FB, float FF, float * in, float * out, unsigned len)
@@ -20,9 +20,9 @@ bool UniversalCombFilter::combFilter(float BL, float FB, float FF, float * in, f
 	float gain = (1 - a) / (1 + b);
 
 	float xh = 0;
-	for (unsigned long i = 0; i < len; i++) //Every sample should be processed
+	for (unsigned long i = 0; i < len; i++) //Se procesan todas las muestras
 	{
-		yh = gain * (x_0 + b * x_1) + a * yh;		//Difference equation y[n] = G * (x[n] + b * x[n-1]) + a * y[n-1]
+		yh = gain * (x_0 + b * x_1) + a * yh;		//Ecuacion en diferencias y[n] = G * (x[n] + b * x[n-1]) + a * y[n-1]
 		x_1 = x_0;
 		x_0 = buff[(dpr + i) % buff.size()];
 
@@ -30,13 +30,12 @@ bool UniversalCombFilter::combFilter(float BL, float FB, float FF, float * in, f
 			xh = in[i] + FB * yh;
 		else
 			xh = in[i] + FB * x_0;
-		out[i] = FF * x_0 + BL * xh; //And is added to the current sample (with a coefficient) LINE A
-		buff[(dpw + i) % buff.size()] = xh; // The output is saved (also with a coefficient) LINE B
+		//Se implementa la ecuacion en diferencias del comb universal
+		out[i] = FF * x_0 + BL * xh;
+		buff[(dpw + i) % buff.size()] = xh;
 	}
-	//To explain what this does in terms of digital systems and signals analysis, this "effect" has the following shape
-	// y[n] = FeedForward * y[n-delay] + BL * (0.7*x[n] + Feddback * y[n-delay])
 
-	//Pointer incrementation, considering the buffer is circular
+	//Incremento lo punteros, considerando que el buffer es circular
 	dpw += len;
 	dpr += len;
 	dpw %= buff.size();
@@ -56,7 +55,7 @@ bool UniversalCombFilter::setDelay(unsigned int delay)
 bool UniversalCombFilter::setLowPass(bool lowpass, float freq)
 {
 	this->isLowPass = lowpass;
-	lowPassPole = cos(2 * PI * freq);
+	lowPassPole = cos(2 * PI * freq);	//Frecuencia de corte para el pasa bajos en la realimentacion
 	return true;
 }
 

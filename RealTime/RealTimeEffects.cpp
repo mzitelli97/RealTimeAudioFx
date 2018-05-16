@@ -9,14 +9,16 @@ int RealTimeEffects::callback(const void *inputBuffer, void *outputBuffer,
 	RealTimeEffects* ef = (RealTimeEffects*)userData;
 	if (ef->mode == 2)
 	{
-		
+		//Si termine el wav cambio el offset a 0
 		if (ef->offset >= ef->wav.size())
 			ef->offset = 0;
-		//memcpy(outputBuffer,ef->wav.data()+ef->offset , sizeof(float)*framesPerBuffer);
+		//Envió los datos al efecto
 		ef->next(ef->wav.data() + ef->offset, outputBuffer, framesPerBuffer);
+		//Aumento en la cantidad de datos
 		ef->offset += framesPerBuffer;
 	}
 	else
+		//Envió los datos al efecto
 		ef->next(inputBuffer, outputBuffer, framesPerBuffer);
 	return paContinue;
 }
@@ -36,10 +38,12 @@ RealTimeEffects::RealTimeEffects(std::vector<Effect*>& eff,unsigned sR)
 bool RealTimeEffects::start()
 {
 	PaError	err;
+	//Si ya estoy inicializado no me inicializo
 	if (running)
 		return false;
 	while (mode == 0)
 	{
+		//Selección de modo
 		system("cls");
 		std::cout << "Welcome to RealTimeFX\t\t\tBy: Group 3" << std::endl;
 		std::cout << "1 - Microphone input" << std::endl;
@@ -47,6 +51,7 @@ bool RealTimeEffects::start()
 
 		
 		std::cin >> mode;
+		//Si el input no fue bueno reinicio y empiezo de nuevo
 		if (!std::cin.good())
 		{
 			std::cin.clear();
@@ -55,6 +60,7 @@ bool RealTimeEffects::start()
 			continue;
 		}
 	}
+	//Si el modo es wav
 	if (mode == 2)
 	{
 		SNDFILE *sf;
@@ -62,7 +68,7 @@ bool RealTimeEffects::start()
 		int num, num_items;
 		int *buf;
 
-		/* Open the WAV file. */
+		//Abro el wav file
 		info.format = 0;
 		std::string path;
 		while (path.size() == 0) path = getUserPath();
@@ -72,14 +78,15 @@ bool RealTimeEffects::start()
 			printf("Failed to open the file.\n");
 			exit(-1);
 		}
-		/* Print some of the info, and figure out how much data to read. */
+		//Obtengo la información
 		sampleRate = info.samplerate;
 		num_items = info.frames * info.channels;
 		inChannels = info.channels;
-		/* Allocate space for the data to be read, then read it. */
+		//Asigno el espacio necesario
 		wav= std::vector<float>(buffSize*ceil((double)num_items/buffSize),0);
 		num = sf_read_float(sf, wav.data(), num_items);
 		sf_close(sf);
+		//Si son dos canales de input los mergeo en uno
 		if (inChannels == 2)
 		{
 			for (unsigned i = 0; i < (info.frames); i++)
@@ -91,40 +98,44 @@ bool RealTimeEffects::start()
 		}
 		offset = 0;
 	}
+	//Le asigno el sample rate a los efectos
 	for (auto& e : effects)
 		e->setSampleRate(sampleRate);
-	/* initialise portaudio subsytem */
+	//Inicializo  port audio
 	err = Pa_Initialize();
 	if (err != paNoError) { error=err; return false; }
 
-	inputParameters.device = Pa_GetDefaultInputDevice();	/* default input device */
+	//Obtengo el input default
+	inputParameters.device = Pa_GetDefaultInputDevice();
 	if (inputParameters.device == paNoDevice) {
 		error= "Error: No input default device.";
 		if (err != paNoError) { Pa_Terminate();  return false; }
 	}
-	inputParameters.channelCount = inChannels;						/* mono input */
-	inputParameters.sampleFormat = paFloat32;				/* 32 bit floating point input */
+	//Asigno en mono el input
+	inputParameters.channelCount = inChannels;
+	inputParameters.sampleFormat = paFloat32;
 	inputParameters.suggestedLatency = Pa_GetDeviceInfo(inputParameters.device)->defaultLowInputLatency;
 	inputParameters.hostApiSpecificStreamInfo = NULL;
-
-	outputParameters.device = Pa_GetDefaultOutputDevice();	/* default output device */
+	//Obtengo el output default
+	outputParameters.device = Pa_GetDefaultOutputDevice();
 	if (outputParameters.device == paNoDevice) {
 		error= "Error: No default output device.";
 		if (err != paNoError) { Pa_Terminate(); return false; }
 	}
-	outputParameters.channelCount = outChannels;				/* stereo output */
-	outputParameters.sampleFormat = paFloat32;		/* 32 bit floating point output */
+	//Salida stereo
+	outputParameters.channelCount = outChannels;
+	outputParameters.sampleFormat = paFloat32;
 	outputParameters.suggestedLatency = Pa_GetDeviceInfo(outputParameters.device)->defaultLowOutputLatency;
 	outputParameters.hostApiSpecificStreamInfo = NULL;
 
 	err = Pa_OpenStream(&stream,
 		&inputParameters,
 		&outputParameters,
-		sampleRate,	/* Samplerate in Hertz. */
-		buffSize,			/* Samples per window */
-		paClipOff,				/* We won't output out of range samples so don't bother clipping them. */
+		sampleRate,	
+		buffSize,
+		paClipOff,
 		callback,	
-		(void*)this);		//rdata
+		(void*)this);
 	if (err != paNoError) { Pa_Terminate(); error = err; return false; }
 
 	err = Pa_StartStream(stream);
@@ -135,17 +146,21 @@ bool RealTimeEffects::start()
 
 bool RealTimeEffects::run()
 {
+
 	system("cls");
 	std::cout << "Starting RealTimeAudio" << std::endl;
 	int currEffect = 0;
+	//Main loop
 	while (currEffect != effects.size())
 	{
+		//Muestro los efectos
 		system("cls");
 		std::cout << "The available effects are: " << std::endl;
 		for (unsigned i = 0; i < effects.size(); i++)
 			std::cout << i << " - " << effects[i]->getName() << std::endl;
 		std::cout << effects.size() << " - Exit" << std::endl;
 		std::cin >> currEffect;
+		//Si el input no fue bueno reseteo 
 		if (!std::cin.good())
 		{
 			std::cin.clear();
@@ -159,6 +174,7 @@ bool RealTimeEffects::run()
 			std::vector<Properties> p = effects[currEffect]->getProps();
 			int prop = 0;
 			double val;
+			//Obtengo las propiedades
 			while (prop < p.size())
 			{
 				system("cls");
@@ -293,8 +309,6 @@ std::string RealTimeEffects::getUserPath()
 
 	if (!GetOpenFileNameA(&ofn))
 	{
-		// All this stuff below is to tell you exactly how you messed up above. 
-		// Once you've got that fixed, you can often (not always!) reduce it to a 'user cancelled' assumption.
 		switch (CommDlgExtendedError())
 		{
 		case CDERR_DIALOGFAILURE: std::cout << "CDERR_DIALOGFAILURE\n";   break;

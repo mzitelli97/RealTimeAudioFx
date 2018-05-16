@@ -1,7 +1,7 @@
 #include "EffectReverbFull.h"
 
+//Tiempo de delay de los filtos comb para lograr la densidad de ecos de 1000/seg
 #define COMB_DELAY_TIMES {0.030f, 0.037f, 0.043f, 0.050f}
-#define E 2.718281828459045235360
 
 EffectReverbFull::EffectReverbFull() : Effect(std::string("Full Reverb"))
 {
@@ -13,8 +13,8 @@ EffectReverbFull::EffectReverbFull() : Effect(std::string("Full Reverb"))
 	combDelays = COMB_DELAY_TIMES;
 	for (int i = 0; i < COMB_FILTER_COUNT; i++)
 	{
-		combFilters[i].setDelay(combDelays[i] * sampleRate);
-		combFilters[i].setLowPass(true,2000/sampleRate);
+		combFilters[i].setDelay(combDelays[i] * sampleRate);	//Seteo el delay para cada comb
+		combFilters[i].setLowPass(true,2000/sampleRate);		//Seteo que tengan un pasabajos en la realimentacion
 	}
 
 	for (int i = 0; i < ALLPASS_FILTER_COUNT; i++)
@@ -30,10 +30,10 @@ bool EffectReverbFull::next(const void * inputBuffer, void * outputBuffer, unsig
 	float* aux = (float*)calloc(framesPerBuffer, sizeof(float));
 	float* combBuff = (float*)calloc(framesPerBuffer, sizeof(float));
 	int ind = 0;
+	//Filtros comb en paralelo
 	for (auto& filter : combFilters)
 	{
-
-		//Filtros comb en paralelo
+		//Calculo de las ganancias para obtener el tiempo de reverberacion deseado
 		float g = pow(10, -3 * combDelays[ind++] / props[0].getValue());
 		filter.combFilter(0, g, 1, in, (float*)combBuff, framesPerBuffer);
 		//Se hace el promedio de las salidas de los filtros comb
@@ -41,9 +41,9 @@ bool EffectReverbFull::next(const void * inputBuffer, void * outputBuffer, unsig
 			aux[i] += (1 / (float)COMB_FILTER_COUNT) * combBuff[i];
 	}
 
+	//Filtros allPass en serie
 	for (auto& filter : allPassFilters)
 	{
-		//Filtros allPass en serie
 		filter.combFilter(-0.7, 0.7, 1, aux, aux, framesPerBuffer);
 	}
 	for (unsigned int i = 0; i < framesPerBuffer; i++)

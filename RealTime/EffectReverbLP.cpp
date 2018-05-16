@@ -11,6 +11,7 @@ EffectReverbLP::EffectReverbLP() : Effect(std::string("Reverb LP"))
 
 	filter = new UniversalCombFilter();
 	filter->setDelay(props[0].getValue() * sampleRate / 1000.0);
+	//Seteo las caracteristicas del filtro pasabajos de la realimentacion
 	filter->setLowPass(true, props[2].getValue() / sampleRate);
 }
 
@@ -18,6 +19,7 @@ bool EffectReverbLP::next(const void * inputBuffer, void * outputBuffer, unsigne
 {
 	float *in = (float*)inputBuffer;
 	float *out = (float*)outputBuffer;
+	//Aplico el filtro
 	filter->combFilter(1, props[1].getValue(), 0, in, out, framesPerBuffer);
 
 	//For stereo output

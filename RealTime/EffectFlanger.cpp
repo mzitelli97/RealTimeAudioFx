@@ -6,7 +6,7 @@
 #define FREQ_DEFAULT 0.5
 #define WIDTH_DEFAULT 1
 #define MIX_DEFAULT 0.7
-#define DELAY_DEFAULT 5
+#define DELAY_DEFAULT 0
 
 #define PI 3.14159265
 EffectFlanger::EffectFlanger() :Effect(std::string("Flanger"))
@@ -50,6 +50,7 @@ bool EffectFlanger::next(const void * inputBuffer, void * outputBuffer, unsigned
 		float fraq = dpr - M;
 		float xh_M = fraq * buff[(M + 1) % buff.size()] + (1 - fraq) * buff[M%buff.size()];
 
+		//Apply the filter
 		float xh = in[i] + FB * xh_M;
 		buff[dpw] = xh;
 		dpw = (++dpw) % buff.size();

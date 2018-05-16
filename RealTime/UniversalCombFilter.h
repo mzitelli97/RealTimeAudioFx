@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 
+//Implementes an universal comb filter, with or without low pass filter in feedback
 class UniversalCombFilter
 {
 public:

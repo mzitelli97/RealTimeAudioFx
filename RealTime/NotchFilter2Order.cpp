@@ -15,7 +15,8 @@ bool NotchFilter2Order::calculateCoeff(float centerFreq, float sampleFreq)
 {
 	float w0 = 2 * PI * centerFreq / sampleFreq;
 	float deltaW = w0 / 1000.0;
-	float R = 0.99;//1 - deltaW / 2.0;
+	float R = 0.99;
+	//Filter coefficients
 	b_0 = 1;
 	b_1 = -2 * cos(w0);
 	b_2 = 1;
@@ -24,7 +25,7 @@ bool NotchFilter2Order::calculateCoeff(float centerFreq, float sampleFreq)
 	a_1 = -2 * R * cos(w0);
 	a_2 = pow(R, 2);
 
-	//Calculo la ganancia para normalizar la transferencia
+	//Gain to normalize the transfer function
 	gain = (a_0 + a_1 + a_2)/(b_0 + b_1 + b_2);
 	return true;
 }

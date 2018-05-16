@@ -4,7 +4,7 @@
 
 #define DELAY_DEFAULT 200
 #define FB_DEFAULT 0.7
-#define FREQ_DEFAULT 5500	//In Hz
+#define FREQ_DEFAULT 3000	//In Hz
 
 class EffectReverbLP :
 	public Effect

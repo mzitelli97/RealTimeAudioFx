@@ -3,7 +3,7 @@
 
 #define PI 3.14159265
 
-
+//Implementa diferentes tipos de osciladores de baja frecuencia
 float lfo(float sampleRate, float freq, waveformType waveType)
 {
 	float lfo = 0;

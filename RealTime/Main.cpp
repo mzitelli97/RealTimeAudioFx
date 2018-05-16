@@ -18,6 +18,7 @@ using namespace std;
 
 int main(void)
 {
+	//Creación de los efectos
 	EffectPlain e1;
 	EffectDelay e2;
 	EffectReverbLP e3;
@@ -30,11 +31,15 @@ int main(void)
 	Effect3D e10;
 	EffectRobot e11;
 	EffectWhisper e12;
+	//Se asignan los efectos a la ClaseRealTime effects
 	vector<Effect*> effs = { &e1,&e2,&e3,&e4,&e5,&e6,&e7,&e8,&e9,&e10,&e11,&e12 };
 	RealTimeEffects r = RealTimeEffects(effs,DEFAULT_SAMPLE_RATE);
+	//Se inicializa la Función
 	if (r.start() == true)
 	{
+		//Se corre el main loop de la ClaseRealTime effects 
 		while (r.run() == true);
+		//Se descinicializa la clase
 		if (r.stop() == false)
 			cout << r.getError() << endl;
 		else

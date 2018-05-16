@@ -5,7 +5,7 @@
 
 #define FREQ_DEFAULT 0.5
 #define WIDTH_DEFAULT 15
-#define DEPTH_DEFAULT 0.25	//for chorus effect
+#define DEPTH_DEFAULT 0.25
 //#define DELAY_DEFAULT 15
 
 #define PI 3.14159265

@@ -26,7 +26,7 @@ bool EffectDelay::next(const void * inputBuffer, void * outputBuffer, unsigned l
 		parameters = { 1,props[1].getValue(),0 };	//BL, FB, FF
 	else //AllPass
 		parameters = {-props[1].getValue(), props[1].getValue(), 1};	//BL, FB, FF
-
+	//Apply the corresponding configuration of the universal comb filter
 	filter->combFilter(parameters[0], parameters[1], parameters[2], in, out, framesPerBuffer);
 
 	//For stereo output
@@ -43,7 +43,7 @@ bool EffectDelay::setProp(unsigned i, double v)
 	bool ret = false;
 	if (i < props.size())
 	{
-		if (i == 3) v = floor(v);	//Redondeo
+		if (i == 3) v = floor(v);	//Redondeo para tomar el tipo de delay
 		ret = props[i].setValue(v);
 		if (i == 0 && ret)
 			filter->setDelay(props[0].getValue() * sampleRate / 1000.0);
